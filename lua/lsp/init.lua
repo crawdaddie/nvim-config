@@ -21,7 +21,7 @@ vim.cmd("nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>")
 vim.cmd("nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>")
 vim.cmd("nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>")
 vim.cmd("nnoremap <silent> ca :Lspsaga code_action<CR>")
-vim.cmd("nnoremap <silent> K :Lspsaga hover_doc<CR>")
+vim.cmd("nnoremap <silent> <leader>k :Lspsaga hover_doc<CR>")
 -- vim.cmd('nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>')
 vim.cmd("nnoremap <silent> <C-p> :Lspsaga diagnostic_jump_prev<CR>")
 vim.cmd("nnoremap <silent> <C-n> :Lspsaga diagnostic_jump_next<CR>")
@@ -79,12 +79,16 @@ autocmd BufWritePre *.jsx lua vim.lsp.buf.formatting_sync(nil, 100)
 autocmd BufWritePre *.lua lua vim.lsp.buf.formatting_sync(nil, 100) ]]
 -- Java
 -- autocmd FileType java nnoremap ca <Cmd>lua require('jdtls').code_action()<CR>
-
 local function documentHighlight(client, bufnr)
     -- Set autocommands conditional on server_capabilities
     if client.resolved_capabilities.document_highlight then
         vim.api.nvim_exec(
             [[
+      hi LspDiagnosticsDefaultHint gui=italic guifg=grey
+      hi LspDiagnosticsDefaultError gui=italic guifg=#ef7872
+      hi LspDiagnosticsDefaultWarning gui=italic guifg=orange
+      hi LspDiagnosticsDefaultInformation gui=italic guifg=purple
+
       hi LspReferenceRead cterm=bold ctermbg=red guibg=#d9d8d3
       hi LspReferenceText cterm=bold ctermbg=red guibg=#d9d8d3
       hi LspReferenceWrite cterm=bold ctermbg=red guibg=#d9d8d3

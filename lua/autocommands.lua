@@ -12,26 +12,26 @@ if O.lang.python.active then
     end
 end
 
-if O.lang.tsserver.active then
-    local javascript_autoformat = {
-        'BufWritePre', '*.js', 'lua vim.lsp.buf.formatting_sync(nil, 1000)'
-    }
-    local javascriptreact_autoformat = {
-        'BufWritePre', '*.jsx', 'lua vim.lsp.buf.formatting_sync(nil, 1000)'
-    }
-    local typescript_autoformat = {
-        'BufWritePre', '*.ts', 'lua vim.lsp.buf.formatting_sync(nil, 1000)'
-    }
-    local typescriptreact_autoformat = {
-        'BufWritePre', '*.tsx', 'lua vim.lsp.buf.formatting_sync(nil, 1000)'
-    }
-    if O.lang.tsserver.autoformat then
-        table.insert(auto_formatters, javascript_autoformat)
-        table.insert(auto_formatters, javascriptreact_autoformat)
-        table.insert(auto_formatters, typescript_autoformat)
-        table.insert(auto_formatters, typescriptreact_autoformat)
-    end
-end
+-- if O.lang.tsserver.active then
+local javascript_autoformat = {
+    'BufWritePre', '*.js', 'lua vim.lsp.buf.formatting_sync(nil, 1000)'
+}
+local javascriptreact_autoformat = {
+    'BufWritePre', '*.jsx', 'lua vim.lsp.buf.formatting_sync(nil, 1000)'
+}
+local typescript_autoformat = {
+    'BufWritePre', '*.ts', 'lua vim.lsp.buf.formatting_sync(nil, 1000)'
+}
+local typescriptreact_autoformat = {
+    'BufWritePre', '*.tsx', 'lua vim.lsp.buf.formatting_sync(nil, 1000)'
+}
+-- if O.lang.tsserver.autoformat then
+-- table.insert(auto_formatters, javascript_autoformat)
+table.insert(auto_formatters, javascriptreact_autoformat)
+table.insert(auto_formatters, typescript_autoformat)
+table.insert(auto_formatters, typescriptreact_autoformat)
+-- end
+-- end
 
 if O.lang.lua.active then
     local lua_format = {

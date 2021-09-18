@@ -72,7 +72,9 @@ return require("packer").startup(function(use)
         end
     }
     use { "rottencandy/vimkubectl" }
-    use { 'davidgranstrom/scnvim' }
+    use { '/Users/adam/projects/sc/scnvim' }
+    use { 'tpope/vim-fugitive' }
 
+    use { 'iamcco/markdown-preview.nvim' }
 end)
 

@@ -63,17 +63,20 @@ vim.cmd('vnoremap P "0P')
 
 -- Toggle the QuickFix window
 vim.api.nvim_set_keymap('', '<C-q>', ':call QuickFixToggle()<CR>', {noremap = true, silent = true})
+
 -- save buffer
-vim.api.nvim_set_keymap('n', '<C-s>', ':update<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<C-s>', ':w<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('i', '<C-s>', '<C-o>:w<CR>', {noremap = true, silent = true})
+
 
 -- Comments
 vim.api.nvim_set_keymap("n", "<leader>/", ":CommentToggle<CR>",{ noremap = true, silent = true })
 vim.api.nvim_set_keymap("v", "<leader>/", ":CommentToggle<CR>",{ noremap = true, silent = true })
 
 -- close buffer
-vim.api.nvim_set_keymap("n", "<leader>bc", ":bd<CR>",{ noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<eader>bc", ":bd<CR>",{ noremap = true, silent = true })
 
 -- rename
 vim.api.nvim_set_keymap("n", "<leader>r", ":Lspsaga rename<CR>", { noremap = true, silent = true })
 -- leave vim
-vim.api.nvim_set_keymap("n", "<leader><C-d>", ":wqa!<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<C-c><C-d>", ":wqa!<CR>", { noremap = true })
