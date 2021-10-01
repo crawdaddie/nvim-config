@@ -9,7 +9,7 @@ require('galaxyline-config')
 require('treesitter-config')
 require('scnvim-config')
 
--- require('lsp')
+require('lsp')
 -- require('lsp.bash-ls')
 -- if O.lang.css.active then require('lsp.css-ls') end
 -- if O.lang.docker.active then require('lsp.docker-ls') end
@@ -25,4 +25,4 @@ require('scnvim-config')
 -- if O.lang.vim.active then require('lsp.vim-ls') end
 -- if O.lang.yaml.active then 
 -- require('lsp.yaml-ls')
--- require('lsp.js-ts-ls')
+require('lsp.js-ts-ls')
