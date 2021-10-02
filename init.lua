@@ -18,7 +18,7 @@ require('lsp')
 -- if O.lang.html.active then require('lsp.html-ls') end
 -- if O.lang.json.active then require('lsp.json-ls') end
 -- require('lsp.lua-ls')
--- require('lsp.python-ls')
+require('lsp.python-ls')
 -- require('lsp.rust-ls')
 -- if O.lang.terraform.active then require('lsp.terraform-ls') end
 -- if O.lang.tailwindcss.active then require('lsp.tailwindcss-ls') end

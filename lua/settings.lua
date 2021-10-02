@@ -42,3 +42,4 @@ vim.o.clipboard = "unnamedplus" -- Copy paste between vim and everything else
 vim.cmd('filetype plugin on') -- filetype detection
 vim.o.ignorecase = O.ignore_case
 vim.o.smartcase = O.smart_case
+vim.g.gitblame_enabled = 0

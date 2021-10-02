@@ -80,3 +80,6 @@ vim.api.nvim_set_keymap("n", "<eader>bc", ":bd<CR>",{ noremap = true, silent = t
 vim.api.nvim_set_keymap("n", "<leader>r", ":Lspsaga rename<CR>", { noremap = true, silent = true })
 -- leave vim
 vim.api.nvim_set_keymap("n", "<C-c><C-d>", ":wqa!<CR>", { noremap = true })
+
+vim.api.nvim_set_keymap("n", "<leader>gb", ":GitBlameToggle<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>GB", ":Git blame<CR>", { noremap = true, silent = true })
