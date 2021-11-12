@@ -78,9 +78,9 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/adam/.local/share/nvim/site/pack/packer/start/galaxyline.nvim"
   },
-  ["git-blame"] = {
+  ["git-blame.nvim"] = {
     loaded = true,
-    path = "/Users/adam/.local/share/nvim/site/pack/packer/start/git-blame"
+    path = "/Users/adam/.local/share/nvim/site/pack/packer/start/git-blame.nvim"
   },
   ["github-nvim-theme"] = {
     loaded = true,
@@ -156,9 +156,22 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/adam/.local/share/nvim/site/pack/packer/start/seoul256.vim"
   },
+  ["stabilize.nvim"] = {
+    config = { "\27LJ\2\n7\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\14stabilize\frequire\0" },
+    loaded = true,
+    path = "/Users/adam/.local/share/nvim/site/pack/packer/start/stabilize.nvim"
+  },
   ["telescope.nvim"] = {
     loaded = true,
     path = "/Users/adam/.local/share/nvim/site/pack/packer/start/telescope.nvim"
+  },
+  ["vim-dadbod"] = {
+    loaded = true,
+    path = "/Users/adam/.local/share/nvim/site/pack/packer/start/vim-dadbod"
+  },
+  ["vim-dadbod-ui"] = {
+    loaded = true,
+    path = "/Users/adam/.local/share/nvim/site/pack/packer/start/vim-dadbod-ui"
   },
   ["vim-fugitive"] = {
     loaded = true,
@@ -176,6 +189,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: stabilize.nvim
+time([[Config for stabilize.nvim]], true)
+try_loadstring("\27LJ\2\n7\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\14stabilize\frequire\0", "config", "stabilize.nvim")
+time([[Config for stabilize.nvim]], false)
 -- Config for: nvim-tree.lua
 time([[Config for nvim-tree.lua]], true)
 try_loadstring("\27LJ\2\n?\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\vconfig\21nvim-tree-config\frequire\0", "config", "nvim-tree.lua")
@@ -190,8 +207,8 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
+vim.cmd [[au InsertEnter * ++once lua require("packer.load")({'nvim-compe', 'vim-vsnip', 'friendly-snippets'}, { event = "InsertEnter *" }, _G.packer_plugins)]]
 vim.cmd [[au BufRead * ++once lua require("packer.load")({'lsp-colors.nvim', 'lspsaga.nvim', 'nvim-lspinstall'}, { event = "BufRead *" }, _G.packer_plugins)]]
-vim.cmd [[au InsertEnter * ++once lua require("packer.load")({'friendly-snippets', 'vim-vsnip', 'nvim-compe'}, { event = "InsertEnter *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end

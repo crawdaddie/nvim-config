@@ -31,8 +31,9 @@ return require("packer").startup(function(use)
         end
     }
 
-    use {"hrsh7th/vim-vsnip", event = "InsertEnter"}
-    use {"rafamadriz/friendly-snippets", event = "InsertEnter"}
+    use { "hrsh7th/vim-vsnip", event = "InsertEnter" }
+    -- use { "rafamadriz/friendly-snippets", event = "InsertEnter" }
+    use { "/Users/adam/projects/friendly-snippets", event = "InsertEnter" }
     --
     -- explorer
     use {
@@ -76,5 +77,14 @@ return require("packer").startup(function(use)
     use { 'tpope/vim-fugitive' }
     use { 'f-person/git-blame.nvim' }
     use { 'iamcco/markdown-preview.nvim' }
+    use {
+	    "luukvbaal/stabilize.nvim",
+	    config = function() require("stabilize").setup() end
+    }
+    -- db 
+    use {
+        'tpope/vim-dadbod'
+    }
+    use { 'kristijanhusak/vim-dadbod-ui' }
 end)
 

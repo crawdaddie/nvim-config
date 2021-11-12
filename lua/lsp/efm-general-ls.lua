@@ -59,20 +59,23 @@ if O.lang.sh.formatter == 'shfmt' then table.insert(sh_arguments, shfmt) end
 if O.lang.sh.linter == 'shellcheck' then table.insert(sh_arguments, shellcheck) end
 
 -- tsserver/web javascript react, vue, json, html, css, yaml
-local prettier = {formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}
+local prettier = {
+    formatCommand = "~/.yarn/bin/prettierd \"${INPUT}\"", formatStdin = true
+}
 -- You can look for project scope Prettier and Eslint with e.g. vim.fn.glob("node_modules/.bin/prettier") etc. If it is not found revert to global Prettier where needed.
 -- local prettier = {formatCommand = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}", formatStdin = true}
 
 local eslint = {
-    lintCommand = "./node_modules/.bin/eslint -f unix --stdin --stdin-filename ${INPUT}",
+    lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
     lintIgnoreExitCode = true,
     lintStdin = true,
     lintFormats = {"%f:%l:%c: %m"},
-    formatCommand = "./node_modules/.bin/eslint --fix-to-stdout --stdin --stdin-filename=${INPUT}",
+    formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
     formatStdin = true
 }
 
 local tsserver_args = {}
+
 
 if O.lang.tsserver.formatter == 'prettier' then table.insert(tsserver_args, prettier) end
 
@@ -92,7 +95,20 @@ require"lspconfig".efm.setup {
     -- init_options = {initializationOptions},
     cmd = {DATA_PATH .. "/lspinstall/efm/efm-langserver"},
     init_options = {documentFormatting = true, codeAction = false},
+    on_attach = function(client)
+        client.resolved_capabilities.document_formatting = true
+        client.resolved_capabilities.goto_definition = false
+        vim.cmd [[
+            augroup Format
+              au! * <buffer>
+              au BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)
+            augroup END
+          ]]
+    end,
     filetypes = {"lua", "python", "javascriptreact", "javascript", "typescript","typescriptreact","sh", "html", "css", "yaml", "markdown", "vue"},
+    -- handlers = {
+    --     ["textDocument/publishDiagnostics"] = function() end
+    -- },
     settings = {
         rootMarkers = {".git/"},
         languages = {

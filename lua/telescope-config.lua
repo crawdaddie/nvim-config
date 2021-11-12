@@ -3,7 +3,7 @@ require('telescope').setup {
     defaults = {
         find_command = {
             'rg', '--no-heading', '--with-filename', '--line-number',
-            '--column', '--smart-case'
+            '--column', '--smart-case', '--hidden'
         },
         prompt_prefix = " ",
         selection_caret = " ",

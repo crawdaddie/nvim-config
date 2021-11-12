@@ -118,10 +118,11 @@ O = {
             -- @usage can be 'eslint'
             linter = '',
             -- @usage can be 'prettier'
-            formatter = '',
-            autoformat = false,
+            formatter = 'prettier',
+            autoformat = true,
             diagnostics = {
-                virtual_text = {spacing = 0, prefix = ""},
+                -- virtual_text = { spacing = 0, prefix = ""},
+                virtual_text = false,
                 signs = true,
                 underline = true
             }
