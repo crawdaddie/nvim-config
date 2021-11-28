@@ -11,6 +11,7 @@ end
 vim.cmd "autocmd BufWritePost plugins.lua PackerCompile"
 
 return require("packer").startup(function(use)
+
 	use "wbthomason/packer.nvim"
 
     -- lsp requires
@@ -22,18 +23,27 @@ return require("packer").startup(function(use)
 	use { "nvim-lua/popup.nvim" }
 	use { "nvim-telescope/telescope.nvim", requires = { {'nvim-lua/plenary.nvim'} } }
 
-    -- Autocomplete
+    use {"hrsh7th/cmp-nvim-lsp"}
     use {
-        "hrsh7th/nvim-compe",
+        "hrsh7th/vim-vsnip",
+    }
+    use {
+        "hrsh7th/cmp-vsnip",
+    }
+    use {
+        "hrsh7th/cmp-buffer",
+    }
+    use {
+        "hrsh7th/cmp-cmdline",
+    }
+    use { "/Users/adam/projects/friendly-snippets", event = "InsertEnter" }
+    use {
+        "hrsh7th/nvim-cmp",
         event = "InsertEnter",
         config = function()
-            require("compe-config").config()
-        end
+            require("nvim-cmp-config")
+        end,
     }
-
-    use { "hrsh7th/vim-vsnip", event = "InsertEnter" }
-    -- use { "rafamadriz/friendly-snippets", event = "InsertEnter" }
-    use { "/Users/adam/projects/friendly-snippets", event = "InsertEnter" }
     --
     -- explorer
     use {
@@ -86,5 +96,6 @@ return require("packer").startup(function(use)
         'tpope/vim-dadbod'
     }
     use { 'kristijanhusak/vim-dadbod-ui' }
+    use { 'mhinz/vim-startify' }
 end)
 

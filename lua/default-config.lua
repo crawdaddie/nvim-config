@@ -90,10 +90,10 @@ O = {
             sdk_path = '/usr/lib/dart/bin/snapshots/analysis_server.dart.snapshot'
         },
         lua = {
-            active = false,
+            active = true,
             -- @usage can be 'lua-format'
-            formatter = '',
-            autoformat = false,
+            formatter = 'lua-format',
+            autoformat = true,
             diagnostics = {
                 virtual_text = {spacing = 0, prefix = ""},
                 signs = true,

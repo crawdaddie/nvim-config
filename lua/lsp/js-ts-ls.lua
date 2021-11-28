@@ -1,4 +1,4 @@
--- local nvim_lsp = require("lspconfig")
+local nvim_lsp = require("lspconfig")
 
 -- npm install -g typescript typescript-language-server
 -- require'snippets'.use_suggested_mappings()
@@ -6,7 +6,6 @@
 -- capabilities.textDocument.completion.completionItem.snippetSupport = true;
 -- local on_attach_common = function(client)
 -- print("LSP Initialized")
--- require'completion'.on_attach(client)
 -- require'illuminate'.on_attach(client)
 -- end
 -- 
@@ -35,6 +34,7 @@ vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.lsp.diagnostic.show_line_diag
 
 require'lspconfig'.tsserver.setup {
     cmd = {DATA_PATH .. "/lspinstall/typescript/node_modules/.bin/typescript-language-server", "--stdio"},
+    capabilities = require'lsp'.capabilities,
 
     filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
     on_attach = require'lsp'.tsserver_on_attach,

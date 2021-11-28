@@ -123,7 +123,8 @@ require"lspconfig".efm.setup {
             css = {prettier},
             json = {prettier},
             yaml = {prettier},
-            markdown = {markdownPandocFormat}
+            markdown = {markdownPandocFormat},
+            supercollider = {prettier}
             -- javascriptreact = {prettier, eslint},
             -- javascript = {prettier, eslint},
             -- markdown = {markdownPandocFormat, markdownlint},

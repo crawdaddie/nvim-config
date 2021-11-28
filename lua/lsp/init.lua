@@ -111,11 +111,35 @@ function lsp_config.common_on_attach(client, bufnr)
     documentHighlight(client, bufnr)
 end
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+lsp_config.capabilities = capabilities
+
 function lsp_config.tsserver_on_attach(client, bufnr)
     lsp_config.common_on_attach(client, bufnr)
     client.resolved_capabilities.document_formatting = false
     client.resolved_capabilities.goto_definition = true 
 end
+
+
+
+
+
+
+--     -- Add additional capabilities supported by nvim-cmp
+-- -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
+-- local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver' }
+-- for _, lsp in ipairs(servers) do
+--   nvim_lsp[lsp].setup {
+--     -- on_attach = my_custom_on_attach,
+--     capabilities = capabilities,
+--   }
+-- end
+-- 
+-- 
+
+
 
 -- if O.document_highlight then
 --     function lsp_config.common_on_attach(client, bufnr)
@@ -134,4 +158,5 @@ end
 --     client.resolved_capabilities.document_formatting = false
 -- end
 -- 
+
 return lsp_config
