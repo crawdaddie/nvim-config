@@ -58,27 +58,7 @@ local kind_icons = {
     Operator = "   (Operator)",
     TypeParameter = "   (TypeParameter)"
 }
--- _G.tab_complete = function()
---   if vim.fn.pumvisible() == 1 then
---     return t "<C-n>"
---   elseif vim.fn.call("vsnip#available", {1}) == 1 then
---     return t "<Plug>(vsnip-expand-or-jump)"
---   elseif check_back_space() then
---     return t "<Tab>"
---   else
---     return vim.fn['cmp#complete']()
---   end
--- end
--- _G.s_tab_complete = function()
---   if vim.fn.pumvisible() == 1 then
---     return t "<C-p>"
---   elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
---     return t "<Plug>(vsnip-jump-prev)"
---   else
---     return t "<S-Tab>"
---   end
--- end
---
+
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
@@ -88,41 +68,37 @@ local feedkey = function(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
+---checks if the character preceding the cursor is a space character
+---@return boolean true if it is a space character, false otherwise
+local check_backspace = function()
+  local col = vim.fn.col "." - 1
+  return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
+end
+
 local cmp = require 'cmp'
 cmp.setup {
-    -- completion = {
-    --     completeopt = 'menu,menuone,noselect,noinsert'
-    -- },
     snippet = {
-            -- REQUIRED - you must specify a snippet engine
         expand = function(args)
             vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-            -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-            -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
         end,
     },
     mapping = {
-    --   ["<Tab>"] = cmp.mapping(function(fallback)
-    --   if cmp.visible() then
-    --     cmp.select_next_item()
-    --   elseif vim.fn["vsnip#available"](1) == 1 then
-    --     feedkey("<Plug>(vsnip-expand-or-jump)", "")
-    --   elseif has_words_before() then
-    --     cmp.complete()
-    --   else
-    --     fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
-    --   end
-    -- end, { "i", "s" }),
-    ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
-
-    ["<S-Tab>"] = cmp.mapping(function()
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-        feedkey("<Plug>(vsnip-jump-prev)", "")
-      end
-    end, { "i", "s" }),
+        ['<Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then 
+                cmp.select_next_item()
+            elseif vim.fn["vsnip#jumpable"](1) == 1 then
+                feedkey("<Plug>(vsnip-jump-next)", "")
+            elseif check_backspace() then
+                fallback()
+            end
+         end, { "i", "s"}), 
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item()
+          elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+            feedkey("<Plug>(vsnip-jump-prev)", "")
+          end
+        end, { "i", "s" }),
 
         ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
         ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
@@ -134,15 +110,16 @@ cmp.setup {
         }),
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
     },
-    sources = cmp.config.sources({
+    documentation = {
+        zindex = 100,
+        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+    },
+    sources = {
         { name = 'nvim_lsp' },
-        { name = 'vsnip' }, -- For vsnip users.
-        -- { name = 'luasnip' }, -- For luasnip users.
-        -- { name = 'ultisnips' }, -- For ultisnips users.
-        -- { name = 'snippy' }, -- For snippy users.
-        }, {
+        { name = 'path' },
+        -- { name = 'vsnip' }, -- For vsnip users.
         { name = 'buffer' },
-        }),
+    },
     formatting = {
         format = function(entry, vim_item)
           -- Kind icons
@@ -151,22 +128,16 @@ cmp.setup {
           vim_item.menu = ({
             buffer = "[Buffer]",
             nvim_lsp = "[LSP]",
-            luasnip = "[LuaSnip]",
+            -- luasnip = "[LuaSnip]",
             vsnip = "[vsnip]",
-            nvim_lua = "[Lua]",
+            -- nvim_lua = "[Lua]",
           })[entry.source.name]
           return vim_item
     end
   },
 }
 
--- vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
--- vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
--- vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
--- vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
---  
 
-      -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline('/', {
     -- completion = { autocomplete = false },
     sources = {

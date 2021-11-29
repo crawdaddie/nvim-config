@@ -39,10 +39,6 @@ return require("packer").startup(function(use)
     use { "/Users/adam/projects/friendly-snippets", event = "InsertEnter" }
     use {
         "hrsh7th/nvim-cmp",
-        event = "InsertEnter",
-        config = function()
-            require("nvim-cmp-config")
-        end,
     }
     --
     -- explorer
