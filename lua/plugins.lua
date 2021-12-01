@@ -23,23 +23,23 @@ return require("packer").startup(function(use)
 	use { "nvim-lua/popup.nvim" }
 	use { "nvim-telescope/telescope.nvim", requires = { {'nvim-lua/plenary.nvim'} } }
 
-    use {"hrsh7th/cmp-nvim-lsp"}
-    use {
-        "hrsh7th/vim-vsnip",
-    }
-    use {
-        "hrsh7th/cmp-vsnip",
-    }
-    use {
-        "hrsh7th/cmp-buffer",
-    }
-    use {
-        "hrsh7th/cmp-cmdline",
-    }
-    use { "/Users/adam/projects/friendly-snippets", event = "InsertEnter" }
-    use {
-        "hrsh7th/nvim-cmp",
-    }
+    -- use {"hrsh7th/cmp-nvim-lsp"}
+    -- use {
+    --     "hrsh7th/vim-vsnip",
+    -- }
+    -- use {
+    --     "hrsh7th/cmp-vsnip",
+    -- }
+    -- use {
+    --     "hrsh7th/cmp-buffer",
+    -- }
+    -- use {
+    --     "hrsh7th/cmp-cmdline",
+    -- }
+    -- use { "/Users/adam/projects/friendly-snippets", event = "InsertEnter" }
+    -- use {
+    --     "hrsh7th/nvim-cmp",
+    -- }
     --
     -- explorer
     use {

@@ -9,6 +9,7 @@ require('galaxyline-config')
 require('treesitter-config')
 require('scnvim-config')
 
+
 require('lsp')
 require('lsp.bash-ls')
 -- if O.lang.css.active then require('lsp.css-ls') end
@@ -28,3 +29,5 @@ require('lsp.yaml-ls')
 require('lsp.efm-general-ls')
 require('lsp.js-ts-ls')
 require('vim-vsnip-config')
+
+-- require('nvim-cmp-config')
