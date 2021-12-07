@@ -47,14 +47,19 @@ cmp.setup({
       end
     end, {"i", "s"})
   },
-  sources = Vapour.plugins.cmp.sources
+  sources = {
+    {name = 'nvim_lsp'},
+    {name = 'vsnip'},
+    {name = 'buffer'},
+    {name = 'path'},
+  }
 })
 
 cmp.setup.cmdline('/', {
-    -- completion = { autocomplete = false },
-    sources = {
-        { name = 'buffer' }
-    }
+  -- completion = { autocomplete = false },
+  sources = {
+    { name = 'buffer' }
+  }
 })
   -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {

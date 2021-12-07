@@ -23,12 +23,7 @@ Vapour = {
     yamlls = {enabled = true},
     solargraph = {enabled = false},
     vuels = {enabled = false},
-    phpactor = {
-      enabled = false,
-      vapour_init = function()
-        require 'language-servers.phpactor'
-      end
-    },
+    
     jsonls = {
       enabled = true,
       setup = {
@@ -48,7 +43,7 @@ Vapour = {
     colorizer = {enabled = true},
     autopairs = {enabled = true},
     gitsigns = {enabled = true},
-    bufferline = {enabled = true},
+    bufferline = {enabled = false},
     lualine = {enabled = true},
     dashboard = {enabled = true},
     toggleterm = {
@@ -78,9 +73,9 @@ Vapour = {
       ensure_installed = "all",
       ignore_install = {"haskell"},
       indent = {enable = false},
-      highlight = {enable = true},
+      highlight = {enable = true, disable = { "supercollider" }},
       autotag = {enable = true},
-      rainbow = {enable = true, extended_mode = false, disable = {"html"}}
+      rainbow = {enable = true, extended_mode = false, disable = {"html", "supercollider"}}
     },
     vsnip = {enabled = true},
     telescope = {enabled = true},

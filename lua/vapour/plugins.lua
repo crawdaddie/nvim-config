@@ -77,8 +77,11 @@ return packer.startup(function(use)
         end,
         disable = not is_enabled('cmp')
     }
+
+    use { "/Users/adam/projects/friendly-snippets", after = "nvim-cmp", event = "InsertEnter" }
     use {'hrsh7th/cmp-nvim-lsp', disable = not is_enabled('cmp')}
     use {'hrsh7th/cmp-buffer', after = "nvim-cmp", disable = not is_enabled('cmp')}
+    use {'hrsh7th/cmp-cmdline', after = "nvim-cmp", disable = not is_enabled('cmp')}
     use {'uga-rosa/cmp-dictionary', after = "nvim-cmp", disable = not is_enabled('cmp')}
     use {'hrsh7th/vim-vsnip', disable = not is_enabled('cmp'), after = "nvim-cmp"}
     use {'windwp/nvim-autopairs', after = get_cmp(), config = "require'autopairs-config'", disable = not is_enabled('autopairs')}
