@@ -19,7 +19,7 @@ require('lsp.graphql-ls')
 -- if O.lang.html.active then require('lsp.html-ls') end
 require('lsp.json-ls')
 -- require('lsp.lua-ls')
--- require('lsp.python-ls')
+require('lsp.python-ls')
 -- require('lsp.rust-ls')
 -- if O.lang.terraform.active then require('lsp.terraform-ls') end
 -- if O.lang.tailwindcss.active then require('lsp.tailwindcss-ls') end
@@ -28,6 +28,6 @@ require('lsp.json-ls')
 require('lsp.yaml-ls')
 require('lsp.efm-general-ls')
 require('lsp.js-ts-ls')
-require('vim-vsnip-config')
 
+-- require('vim-vsnip-config')
 -- require('nvim-cmp-config')

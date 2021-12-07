@@ -1,7 +1,6 @@
 -- Example configuations here: https://github.com/mattn/efm-langserver
 -- TODO this file needs to be refactored eache lang should be it's own file
 -- python
-local python_arguments = {}
 
 -- TODO replace with path argument
 local flake8 = {
@@ -19,12 +18,12 @@ if O.lang.python.linter == 'flake8' then table.insert(python_arguments, flake8) 
 
 if O.lang.python.isort then table.insert(python_arguments, isort) end
 
-if O.lang.python.formatter == 'yapf' then
-    table.insert(python_arguments, yapf)
-elseif O.lang.python.formatter == 'black' then
-    table.insert(python_arguments, black)
-end
-
+-- if O.lang.python.formatter == 'yapf' then
+-- table.insert(python_arguments, yapf)
+-- elseif O.lang.python.formatter == 'black' then
+--     table.insert(python_arguments, black)
+-- end
+-- 
 -- lua
 local lua_arguments = {}
 

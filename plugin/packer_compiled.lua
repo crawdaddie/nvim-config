@@ -69,27 +69,6 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
-  ["cmp-buffer"] = {
-    loaded = true,
-    path = "/Users/adam/.local/share/nvim/site/pack/packer/start/cmp-buffer"
-  },
-  ["cmp-cmdline"] = {
-    loaded = true,
-    path = "/Users/adam/.local/share/nvim/site/pack/packer/start/cmp-cmdline"
-  },
-  ["cmp-nvim-lsp"] = {
-    loaded = true,
-    path = "/Users/adam/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp"
-  },
-  ["cmp-vsnip"] = {
-    loaded = true,
-    path = "/Users/adam/.local/share/nvim/site/pack/packer/start/cmp-vsnip"
-  },
-  ["friendly-snippets"] = {
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/adam/.local/share/nvim/site/pack/packer/opt/friendly-snippets"
-  },
   ["galaxyline.nvim"] = {
     loaded = true,
     path = "/Users/adam/.local/share/nvim/site/pack/packer/start/galaxyline.nvim"
@@ -115,10 +94,6 @@ _G.packer_plugins = {
   ["markdown-preview.nvim"] = {
     loaded = true,
     path = "/Users/adam/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim"
-  },
-  ["nvim-cmp"] = {
-    loaded = true,
-    path = "/Users/adam/.local/share/nvim/site/pack/packer/start/nvim-cmp"
   },
   ["nvim-comment"] = {
     commands = { "CommentToggle" },
@@ -194,10 +169,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/adam/.local/share/nvim/site/pack/packer/start/vim-startify"
   },
-  ["vim-vsnip"] = {
-    loaded = true,
-    path = "/Users/adam/.local/share/nvim/site/pack/packer/start/vim-vsnip"
-  },
   vimkubectl = {
     loaded = true,
     path = "/Users/adam/.local/share/nvim/site/pack/packer/start/vimkubectl"
@@ -223,8 +194,7 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
-vim.cmd [[au BufRead * ++once lua require("packer.load")({'nvim-lspinstall', 'lsp-colors.nvim', 'lspsaga.nvim'}, { event = "BufRead *" }, _G.packer_plugins)]]
-vim.cmd [[au InsertEnter * ++once lua require("packer.load")({'friendly-snippets'}, { event = "InsertEnter *" }, _G.packer_plugins)]]
+vim.cmd [[au BufRead * ++once lua require("packer.load")({'lsp-colors.nvim', 'lspsaga.nvim', 'nvim-lspinstall'}, { event = "BufRead *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end
