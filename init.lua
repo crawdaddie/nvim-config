@@ -1,33 +1,40 @@
-require('default-config')
-require('settings')
-require('plugins')
-require('colorscheme')
-require('keymappings')
-require('autocommands')
-require('telescope-config')
-require('galaxyline-config')
-require('treesitter-config')
-require('scnvim-config')
+-- __     __                           _   _       _
+-- \ \   / /_ _ _ __   ___  _   _ _ __| \ | |_   _(_)_ __ ___
+--  \ \ / / _` | '_ \ / _ \| | | | '__|  \| \ \ / / | '_ ` _ \
+--   \ V / (_| | |_) | (_) | |_| | |  | |\  |\ V /| | | | | | |
+--    \_/ \__,_| .__/ \___/ \__,_|_|  |_| \_| \_/ |_|_| |_| |_|
+--             |_|
+-- Author: https://github.com/hackorum
+-- Github: https://github.com/hackorum/VapourNvim
+--
+-- Sane defaults and global helpers
+-- Load all Vapour packages first
+require('vapour')
 
+local user_config = CONFIG_PATH .. '/lua/vapour/user-config/init.lua'
 
-require('lsp')
-require('lsp.bash-ls')
--- if O.lang.css.active then require('lsp.css-ls') end
-require('lsp.docker-ls')
-require('lsp.graphql-ls')
--- if O.lang.graphql.active then require('lsp.graphql-ls') end
--- if O.lang.html.active then require('lsp.html-ls') end
-require('lsp.json-ls')
--- require('lsp.lua-ls')
-require('lsp.python-ls')
--- require('lsp.rust-ls')
--- if O.lang.terraform.active then require('lsp.terraform-ls') end
--- if O.lang.tailwindcss.active then require('lsp.tailwindcss-ls') end
--- if O.lang.vim.active then require('lsp.vim-ls') end
--- if O.lang.yaml.active then 
-require('lsp.yaml-ls')
-require('lsp.efm-general-ls')
-require('lsp.js-ts-ls')
+if not Vapour.utils.file.exists(user_config) then Vapour.utils.file.create(user_config) end
 
--- require('vim-vsnip-config')
--- require('nvim-cmp-config')
+-- User config that overrides the above
+vim.cmd('luafile ' .. user_config)
+
+-- General
+require('vapour.options')
+require('vapour.plugins')
+require('vapour.keybindings')
+
+-- Syntax and Visual
+-- If a custom theme is wanted, require() that in user-config.init
+-- Otherwise if the default theme is not wanted change Vapour.settings.colorscheme
+-- This will return nil if it's not found
+if Vapour.settings.colorscheme ~= "custom" then Vapour.utils.plugins.require('colorscheme.' .. Vapour.settings.colorscheme) end
+
+-- LSP and Autocomplete
+require('language-servers')
+
+-- Git
+require('gitsigns-config')
+
+-- Other
+require('which-key-config')
+if Vapour.settings.transparent_bg then vim.cmd('hi Normal guibg=NONE ctermbg=NONE') end

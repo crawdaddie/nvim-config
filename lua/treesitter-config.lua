@@ -1,14 +1,10 @@
-require'nvim-treesitter.configs'.setup {
-    matchup = {
-        enable = true-- mandatory, false will disable the whole extension
-        -- disable = { "c", "ruby" },  -- optional, list of language that will be disabled
-    },
-    highlight = {
-        enable = true,
-        disable = { "supercollider" }
-    },
-    context_commentstring = {enable = O.plugin.ts_context_commentstring, config = {css = '// %s'}},
-    indent = {enable = true},
-    autotag = {enable = true},
-}
+Vapour.utils.plugins.packadd('nvim-treesitter')
 
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = Vapour.plugins.treesitter.ensure_installed, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ignore_install = Vapour.plugins.treesitter.ignore_install,
+  indent = Vapour.plugins.treesitter.indent,
+  highlight = Vapour.plugins.treesitter.highlight,
+  autotag = Vapour.plugins.treesitter.autotag,
+  rainbow = Vapour.plugins.treesitter.rainbow
+}
