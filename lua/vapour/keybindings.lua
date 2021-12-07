@@ -28,3 +28,12 @@ if Vapour.plugins.nvim_comment.enabled then vim.api.nvim_set_keymap('v', '<leade
 vim.cmd('inoremap <expr> <c-j> (\"\\<C-n>\")')
 vim.cmd('inoremap <expr> <c-k> (\"\\<C-p>\")')
 vim.cmd("vnoremap // y/\\V<C-R>=escape(@\",'/\')<CR><CR>")
+
+-- save buffer
+vim.api.nvim_set_keymap('n', '<C-s>', ':w!<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('i', '<C-s>', '<C-o>:w!<CR>', {noremap = true, silent = true})
+-- leave vim
+vim.api.nvim_set_keymap("n", "<C-c><C-d>", ":wqa!<CR>", { noremap = true })
+
+
+

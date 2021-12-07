@@ -10,7 +10,12 @@ Vapour = {
     bashls = {enabled = true},
     cssls = {enabled = true},
     html = {enabled = true},
-    tsserver = {enabled = true},
+    tsserver = {
+      enabled = false 
+      -- vapour_init = function(capabilities)
+      --   require 'language-servers.tsserver'
+      -- end
+    },
     pyright = {enabled = true},
     jedi_language_server = {enabled = true},
     pylsp = {enabled = true},
@@ -117,9 +122,9 @@ Vapour = {
 
   settings = {
     -- If true, :w -> :w!
-    always_force_write = false,
+    always_force_write = true,
     colorscheme = 'seoul256-light',
-    lualine_colorscheme = 'rose-pine',
+    lualine_colorscheme = 'auto',
     transparent_bg = false
   }
 }

@@ -5,20 +5,44 @@ local lspconfig = Vapour.utils.plugins.require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+local lspUtils = require((...)..'.utils')
+
 -- Language servers
 for ls_type, props in pairs(Vapour.language_servers) do
   if props.enabled == true then
-    if props.vapour_init then props.vapour_init() end
-
+    if props.vapour_init then props.vapour_init(capabilities) end
     lspconfig[ls_type].setup(props.setup or {
       capabilities = capabilities,
+      on_attach = function(client, bufnr)
+        lspUtils.documentHighlight(client, bufnr)
+      end,
       root_dir = function(_)
         return vim.loop.cwd()
       end
-
     })
   end
 end
+
+lspconfig['tsserver'].setup({
+    cmd = {DATA_PATH .. "/lspinstall/typescript/node_modules/.bin/typescript-language-server", "--stdio"},
+    capabilities = capabilities,
+
+    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+
+    on_attach = function(client, bufnr)
+      lspUtils.documentHighlight(client, bufnr)
+    end,
+    root_dir = require('lspconfig/util').root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
+    handlers = {
+        ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+            virtual_text = true,
+            signs = true,
+            underline = true,
+            -- update_in_insert = true fucks up text as I'm typing - don't like it
+            update_in_insert = false 
+        }),
+    }
+})
 
 require'lspconfig'.jsonls.setup {
   commands = {
@@ -90,8 +114,9 @@ require('vim.lsp.protocol').CompletionItemKind = {
   ' ', ' ', '', '', '<>'
 }
 
+
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
   underline = true,
   virtual_text = {spacing = 5, severity_limit = 'Warning'},
-  update_in_insert = true
+  update_in_insert = false
 })

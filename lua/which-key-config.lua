@@ -27,7 +27,11 @@ local mappings = {
   Q = {":q!<cr>", "Force Quit"},
   w = {":w<cr>", "Write"},
   E = {":e ~/.config/nvim/lua/vapour/user-config/init.lua<cr>", "Edit User Config"},
-  p = {
+  f = {"<cmd>Telescope live_grep<cr>", "Live Grep"},
+  b = {"<cmd>Telescope buffers<cr>", "Buffers"},
+  o = {"<cmd>Telescope oldfiles<cr>", "Recent Files"},
+  p = {"<cmd>Telescope find_files<cr>", "Find Files"},
+  P = {
     name = "Packer",
     r = {":PackerClean<cr>", "Remove Unused Plugins"},
     c = {":PackerCompile profile=true<cr>", "Recompile Plugins"},
@@ -39,19 +43,15 @@ local mappings = {
   }
 }
 
-if Vapour.plugins.nvim_tree.enabled then mappings.e = {":NvimTreeToggle<cr>", "File Explorerer"} end
+if Vapour.plugins.nvim_tree.enabled then mappings.e = {":NvimTreeToggle<cr>", "File Explorer"} end
 
 if Vapour.plugins.dashboard.enabled then mappings.d = {":Dashboard<cr>", "Dashboard"} end
 
-if Vapour.plugins.telescope.enabled then
-  mappings.f = {
-    name = "Telescope",
-    f = {"<cmd>Telescope find_files<cr>", "Find Files"},
-    r = {"<cmd>Telescope live_grep<cr>", "Live Grep"},
-    b = {"<cmd>Telescope buffers<cr>", "Buffers"},
-    o = {"<cmd>Telescope oldfiles<cr>", "Recent Files"}
-  }
-end
+-- if Vapour.plugins.telescope.enabled then
+--   mappings.f = {
+--     name = "Telescope",
+--   }
+-- end
 
 if Vapour.plugins.nvim_comment.enabled then mappings["/"] = {":CommentToggle<cr>", "Toggle Comment"} end
 

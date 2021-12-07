@@ -50,4 +50,20 @@ cmp.setup({
   sources = Vapour.plugins.cmp.sources
 })
 
+cmp.setup.cmdline('/', {
+    -- completion = { autocomplete = false },
+    sources = {
+        { name = 'buffer' }
+    }
+})
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+    sources = {
+      { name = 'path' },
+      { name = 'cmdline' }
+    }
+})
+
+
+
 vim.cmd("autocmd FileType TelescopePrompt lua require('cmp').setup.buffer { enabled = false }")

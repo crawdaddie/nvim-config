@@ -98,9 +98,9 @@ require'nvim-tree'.setup {
   update_focused_file = {enable = true, update_cwd = true, ignore_list = {}},
   system_open = {
     -- the command to run this, leaving nil should work in most cases
-    cmd = nil,
+    cmd = open,
     -- the command arguments as a list
-    args = {}
+    args = { "-R" }
   },
   git = {
     enable = true,

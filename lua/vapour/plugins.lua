@@ -51,16 +51,16 @@ return packer.startup(function(use)
     use {'windwp/nvim-ts-autotag', disable = not is_enabled('treesitter'), after = 'nvim-treesitter'}
 
     -- Colorschemes
-    use {'rose-pine/neovim', as = 'rose-pine', opt = true}
-    use {'joshdick/onedark.vim', opt = true}
-    use {'gruvbox-community/gruvbox', opt = true}
-    use {'shaunsingh/nord.nvim', opt = true}
-    use {'folke/tokyonight.nvim', opt = true}
-    use {'dracula/vim', as = 'dracula', opt = true}
-    use {'tiagovla/tokyodark.nvim', opt = true}
+    -- use {'rose-pine/neovim', as = 'rose-pine', opt = true}
+    -- use {'joshdick/onedark.vim', opt = true}
+    -- use {'gruvbox-community/gruvbox', opt = true}
+    -- use {'shaunsingh/nord.nvim', opt = true}
+    -- use {'folke/tokyonight.nvim', opt = true}
+    -- use {'dracula/vim', as = 'dracula', opt = true}
+    -- use {'tiagovla/tokyodark.nvim', opt = true}
     -- themes
     -- use { "projekt0n/github-nvim-theme" }
-    use { "junegunn/seoul256.vim" }
+    use { "junegunn/seoul256.vim", config = "require'colorscheme.seoul256-light'" }
     -- Icons
     use {"kyazdani42/nvim-web-devicons"}
     -- use {"glepnir/galaxyline.nvim"}
@@ -103,6 +103,8 @@ return packer.startup(function(use)
     use {'terrortylor/nvim-comment', cmd = "CommentToggle", config = "require('nvim_comment').setup()", disable = not is_enabled('nvim_comment')}
     use {'lukas-reineke/format.nvim', disable = not is_enabled('format'), config = "require'formatting'"}
     use {'folke/which-key.nvim', event = "BufWinEnter"}
+    use { '/Users/adam/projects/sc/scnvim' }
+
 
     for _, plugin in pairs(Vapour.plugins.user) do use(plugin) end
 end)
