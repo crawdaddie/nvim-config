@@ -1,6 +1,6 @@
 -- Utility functions to help with various uses
 local require_plugin = function(p)
-    if Vapour.plugins[p] ~= nil and not Vapour.plugins[p].enabled then return nil end
+    if Settings.plugins[p] ~= nil and not Settings.plugins[p].enabled then return nil end
 
     local ok, plugin = pcall(require, p)
 
@@ -24,17 +24,17 @@ local plugin_exists = function(p)
 end
 
 local add_which_key = function(starter_key, definitions)
-    Vapour.plugins.which_key.user_defined[starter_key] = definitions or {}
+    Settings.plugins.which_key.user_defined[starter_key] = definitions or {}
 end
 
-Vapour.utils = {
+Settings.utils = {
     tables = {
         -- table_in = table of what to be copied from
         -- table_out = table store what is in table_in
         copy = function(t1, t2)
             for k, v in pairs(t2) do
                 if (type(v) == "table") and (type(t1[k] or false) == "table") then
-                    Vapour.utils.tables.copy(t1[k], t2[k])
+                    Settings.utils.tables.copy(t1[k], t2[k])
                 else
                     t1[k] = v
                 end
@@ -66,12 +66,12 @@ Vapour.utils = {
         which_key = add_which_key,
         -- Helper function to add to the user plugins if need be
         add_user = function(p)
-            table.insert(Vapour.plugins.user, p)
+            table.insert(Settings.plugins.user, p)
         end,
-        -- Allows us to require packages in vapour-user-config
+        -- Allows us to require packages in Settings-user-config
         -- without throwing exceptions if the package don't exist
         -- Optionally you can run this like some/package to add it
-        -- to the Vapour.packages.user table for installation.
+        -- to the Settings.packages.user table for installation.
         --
         -- mod_name - Name to pass into require()
         -- pkg - The name to pass into Packer (i.e.: <username>/<repo>)
@@ -90,7 +90,7 @@ Vapour.utils = {
             if plugin ~= nil then
                 return plugin
             elseif pkg_is_git then
-                table.insert(Vapour.plugins.user, {packer_ref, conf})
+                table.insert(Settings.plugins.user, {packer_ref, conf})
                 return nil
             end
         end

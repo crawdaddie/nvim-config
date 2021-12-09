@@ -1,6 +1,6 @@
-Vapour.utils.plugins.packadd('nvim-lspconfig')
+Settings.utils.plugins.packadd('nvim-lspconfig')
 local lsp_installer = require("nvim-lsp-installer")
-local lspconfig = Vapour.utils.plugins.require('lspconfig')
+local lspconfig = Settings.utils.plugins.require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
@@ -71,9 +71,9 @@ vim.cmd("nnoremap <silent> <leader>k :Lspsaga hover_doc<CR>")
 
 -- Language servers
 lsp_installer.on_server_ready(function(server)
-    local config = Vapour.language_servers[server] or { enabled = true }
+    local config = Settings.language_servers[server] or { enabled = true }
     if config.enabled == true then
-      if config.vapour_init then config.vapour_init(capabilities) end
+      if config.Settings_init then config.Settings_init(capabilities) end
       local opts = config.setup or {
         capabilities = capabilities,
         on_attach = function(client, bufnr)
@@ -87,9 +87,9 @@ lsp_installer.on_server_ready(function(server)
     end
 end)
 
--- for ls_type, props in pairs(Vapour.language_servers) do
+-- for ls_type, props in pairs(Settings.language_servers) do
 --   if props.enabled == true then
---     if props.vapour_init then props.vapour_init(capabilities) end
+--     if props.Settings_init then props.Settings_init(capabilities) end
 --     lspconfig[ls_type].setup(props.setup or {
 --       capabilities = capabilities,
 --       on_attach = function(client, bufnr)
@@ -152,17 +152,17 @@ elseif vim.fn.has("unix") == 1 then
 elseif vim.fn.has("win32") == 1 then
   sumneko_root_path = "C:\\Users\\" .. USER .. "\\AppData\\Local\\nvim\\ls\\lua-language-server"
   sumneko_binary = "C:\\Users" .. USER .. "\\AppData\\Local\\nvim\\ls\\lua-language-server\\bin\\Windows\\lua-language-server"
-elseif Vapour.language_servers.sumneko_lua['root_path'] ~= nil then
-  sumneko_root_path = Vapour.language_servers.sumneko_lua.root_path
-  sumneko_binary = Vapour.language_servers.sumneko_lua.binary_path
+elseif Settings.language_servers.sumneko_lua['root_path'] ~= nil then
+  sumneko_root_path = Settings.language_servers.sumneko_lua.root_path
+  sumneko_binary = Settings.language_servers.sumneko_lua.binary_path
 else
   print("Unsupported system for sumneko")
 end
 
-if Vapour.language_servers.sumneko_lua.enabled and sumneko_binary ~= "" and not Vapour.utils.file.exists(sumneko_binary) then
+if Settings.language_servers.sumneko_lua.enabled and sumneko_binary ~= "" and not Settings.utils.file.exists(sumneko_binary) then
   print('Unable to load Sumneko language server.  Make sure it is installed in ' .. sumneko_root_path)
 else
-  local luadev = Vapour.utils.plugins.require('lua-dev')
+  local luadev = Settings.utils.plugins.require('lua-dev')
   local lua_lsp_config = {
     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
     settings = {

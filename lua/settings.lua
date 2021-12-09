@@ -1,9 +1,9 @@
-require('vapour.globals')
+require('globals')
 
-Vapour = {}
+Settings = {}
 
--- Vapour object to use for namespacing
-Vapour = {
+-- Settings object to use for namespacing
+Settings = {
   options = {tabwidth = 2},
   language_servers = {
     sumneko_lua = {enabled = true},
@@ -61,8 +61,8 @@ Vapour = {
         name = "Terminal",
         definitions = {
           t = {":ToggleTerm<cr>", "Split Below"},
-          f = {"<cmd>lua Vapour.plugins.toggleterm.toggle_float()<cr>", "Floating Terminal"},
-          l = {"<cmd>lua Vapour.plugins.toggleterm.toggle_lazygit()<cr>", "LazyGit"}
+          f = {"<cmd>lua Settings.plugins.toggleterm.toggle_float()<cr>", "Floating Terminal"},
+          l = {"<cmd>lua Settings.plugins.toggleterm.toggle_lazygit()<cr>", "LazyGit"}
         }
       }
     },
@@ -96,11 +96,11 @@ Vapour = {
     -- Packer-specific needs
     packer = {
       enabled = true,
-      -- See vapour/user-config/README.md for an example use of this
+      -- See Settings/user-config/README.md for an example use of this
       init = {
         display = {
           open_fn = function()
-            return Vapour.utils.plugins.require('packer.util').float {border = "single"}
+            return Settings.utils.plugins.require('packer.util').float {border = "single"}
           end
         }
       }
@@ -110,7 +110,7 @@ Vapour = {
     user = {}
   },
 
-  -- To update see vapour.utils
+  -- To update see Settings.utils
   utils = {},
 
   settings = {
@@ -122,4 +122,4 @@ Vapour = {
   }
 }
 
-require('vapour.utils')
+require('utils')

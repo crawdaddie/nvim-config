@@ -1,6 +1,6 @@
-Vapour.utils.plugins.packadd('which-key.nvim')
+Settings.utils.plugins.packadd('which-key.nvim')
 
-local wk = Vapour.utils.plugins.require('which-key')
+local wk = Settings.utils.plugins.require('which-key')
 
 local mappings = {
   l = {
@@ -26,7 +26,7 @@ local mappings = {
   q = {":q<cr>", "Quit"},
   Q = {":q!<cr>", "Force Quit"},
   w = {":w<cr>", "Write"},
-  E = {":e ~/.config/nvim/lua/vapour/user-config/init.lua<cr>", "Edit User Config"},
+  E = {":e ~/.config/nvim/lua/Settings/user-config/init.lua<cr>", "Edit User Config"},
   f = {"<cmd>Telescope live_grep<cr>", "Live Grep"},
   b = {"<cmd>Telescope buffers<cr>", "Buffers"},
   o = {"<cmd>Telescope oldfiles<cr>", "Recent Files"},
@@ -43,25 +43,25 @@ local mappings = {
   }
 }
 
-if Vapour.plugins.nvim_tree.enabled then mappings.e = {":NvimTreeToggle<cr>", "File Explorer"} end
+if Settings.plugins.nvim_tree.enabled then mappings.e = {":NvimTreeToggle<cr>", "File Explorer"} end
 
-if Vapour.plugins.dashboard.enabled then mappings.d = {":Dashboard<cr>", "Dashboard"} end
+if Settings.plugins.dashboard.enabled then mappings.d = {":Dashboard<cr>", "Dashboard"} end
 
--- if Vapour.plugins.telescope.enabled then
+-- if Settings.plugins.telescope.enabled then
 --   mappings.f = {
 --     name = "Telescope",
 --   }
 -- end
 
-if Vapour.plugins.nvim_comment.enabled then mappings["/"] = {":CommentToggle<cr>", "Toggle Comment"} end
+if Settings.plugins.nvim_comment.enabled then mappings["/"] = {":CommentToggle<cr>", "Toggle Comment"} end
 
-if not Vapour.settings.always_force_write then
+if not Settings.settings.always_force_write then
   mappings.W = {":w!<cr>", "Force Write"}
 else
   -- map n mode w to w!
 end
 
-for plugin, plugin_options in pairs(Vapour.plugins) do
+for plugin, plugin_options in pairs(Settings.plugins) do
   if plugin_options.which_key ~= nil and plugin_options.enabled then
     local whichkey_opts = plugin_options.which_key
 
@@ -84,7 +84,7 @@ for plugin, plugin_options in pairs(Vapour.plugins) do
   end
 end
 
-mappings = Vapour.utils.tables.copy(mappings, Vapour.plugins.which_key.user_defined)
+mappings = Settings.utils.tables.copy(mappings, Settings.plugins.which_key.user_defined)
 
 local opts = {prefix = "<leader>"}
 

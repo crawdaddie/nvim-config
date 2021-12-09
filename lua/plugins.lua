@@ -8,16 +8,16 @@ if fn.empty(fn.glob(install_path)) > 0 then
     execute 'packadd packer.nvim'
 end
 
-local packer = Vapour.utils.plugins.require('packer')
+local packer = Settings.utils.plugins.require('packer')
 
-packer.init(Vapour.plugins.packer.init)
+packer.init(Settings.plugins.packer.init)
 
 local function is_enabled(plugin)
-    return Vapour.plugins[plugin].enabled
+    return Settings.plugins[plugin].enabled
 end
 
 local function get_cmp()
-    if Vapour.plugins.cmp.enabled == true then
+    if Settings.plugins.cmp.enabled == true then
         return 'nvim-cmp'
     else
         return
@@ -130,5 +130,5 @@ return packer.startup(function(use)
     use { '/Users/adam/projects/sc/scnvim' }
 
 
-    for _, plugin in pairs(Vapour.plugins.user) do use(plugin) end
+    for _, plugin in pairs(Settings.plugins.user) do use(plugin) end
 end)
