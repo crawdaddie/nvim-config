@@ -10,15 +10,12 @@ Vapour = {
     bashls = {enabled = true},
     cssls = {enabled = true},
     html = {enabled = true},
-    tsserver = {
-      enabled = false 
-      -- vapour_init = function(capabilities)
-      --   require 'language-servers.tsserver'
-      -- end
-    },
-    pyright = {enabled = true},
+    -- tsserver = {
+    --   enabled = false 
+    -- },
+    pyright = {enabled = false},
     jedi_language_server = {enabled = true},
-    pylsp = {enabled = true},
+    pylsp = {enabled = false},
     vimls = {enabled = true},
     yamlls = {enabled = true},
     solargraph = {enabled = false},
@@ -46,6 +43,7 @@ Vapour = {
     bufferline = {enabled = false},
     lualine = {enabled = true},
     dashboard = {enabled = true},
+    lspsaga = {enabled = true},
     toggleterm = {
       enabled = true,
       toggle_float = function()
@@ -81,7 +79,7 @@ Vapour = {
     telescope = {enabled = true},
     nvim_tree = {enabled = true},
     dial = {enabled = true},
-    format = {enabled = true},
+    format = {enabled = false},
     nvim_comment = {enabled = true},
     cmp = {
       enabled = true,

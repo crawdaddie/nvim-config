@@ -66,9 +66,18 @@ return packer.startup(function(use)
     -- use {"glepnir/galaxyline.nvim"}
 
 
-    -- LSP and Autocomplete
+    -- LSP 
     use {'neovim/nvim-lspconfig', event = "BufRead"}
+    use {
+      -- "glepnir/lspsaga.nvim",
+      "al3xfischer/lspsaga.nvim",
+      -- config = "require'lspsaga-config'",
+      event = "BufRead"
+    }
+    use {'williamboman/nvim-lsp-installer'}
     use {'onsails/lspkind-nvim'}
+
+    -- Autocomplete
     use {
         'hrsh7th/nvim-cmp',
         event = "InsertEnter *",
@@ -82,8 +91,20 @@ return packer.startup(function(use)
     use {'hrsh7th/cmp-nvim-lsp', disable = not is_enabled('cmp')}
     use {'hrsh7th/cmp-buffer', after = "nvim-cmp", disable = not is_enabled('cmp')}
     use {'hrsh7th/cmp-cmdline', after = "nvim-cmp", disable = not is_enabled('cmp')}
-    use {'uga-rosa/cmp-dictionary', after = "nvim-cmp", disable = not is_enabled('cmp')}
-    use {'hrsh7th/vim-vsnip', disable = not is_enabled('cmp'), after = "nvim-cmp"}
+    -- use {'hrsh7th/cmp-vsnip', disable = not is_enabled('cmp'), after = "nvim-cmp"}
+
+    use {
+      'hrsh7th/cmp-vsnip',
+      after = 'nvim-cmp',
+      requires = {
+        'hrsh7th/vim-vsnip',
+        {
+          'rafamadriz/friendly-snippets',
+          after = 'cmp-vsnip',
+        }
+      }
+    }
+
     use {'windwp/nvim-autopairs', after = get_cmp(), config = "require'autopairs-config'", disable = not is_enabled('autopairs')}
 
     -- Version Control
@@ -104,7 +125,7 @@ return packer.startup(function(use)
 
     -- Other
     use {'terrortylor/nvim-comment', cmd = "CommentToggle", config = "require('nvim_comment').setup()", disable = not is_enabled('nvim_comment')}
-    use {'lukas-reineke/format.nvim', disable = not is_enabled('format'), config = "require'formatting'"}
+    -- use {'lukas-reineke/format.nvim', disable = not is_enabled('format'), config = "require'formatting'"}
     use {'folke/which-key.nvim', event = "BufWinEnter"}
     use { '/Users/adam/projects/sc/scnvim' }
 

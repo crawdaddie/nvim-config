@@ -30,8 +30,8 @@ require('vapour.keybindings')
 if Vapour.settings.colorscheme ~= "custom" then Vapour.utils.plugins.require('colorscheme.' .. Vapour.settings.colorscheme) end
 
 -- LSP and Autocomplete
-require('language-servers')
-
+require('lsp')
+-- require('lspsaga-config')
 -- Git
 require('gitsigns-config')
 

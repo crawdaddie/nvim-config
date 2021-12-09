@@ -47,6 +47,10 @@ cmp.setup({
       end
     end, {"i", "s"})
   },
+  documentation = {
+    zindex = 100,
+    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+  },
   sources = {
     {name = 'nvim_lsp'},
     {name = 'vsnip'},
@@ -56,7 +60,7 @@ cmp.setup({
 })
 
 cmp.setup.cmdline('/', {
-  -- completion = { autocomplete = false },
+  completion = { autocomplete = false },
   sources = {
     { name = 'buffer' }
   }
