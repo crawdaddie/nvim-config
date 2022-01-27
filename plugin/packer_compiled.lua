@@ -94,6 +94,16 @@ _G.packer_plugins = {
     path = "/Users/adam/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
     url = "https://github.com/hrsh7th/cmp-nvim-lsp"
   },
+  ["cmp-path"] = {
+    after_files = { "/Users/adam/.local/share/nvim/site/pack/packer/opt/cmp-path/after/plugin/cmp_path.lua" },
+    load_after = {
+      ["nvim-cmp"] = true
+    },
+    loaded = false,
+    needs_bufread = false,
+    path = "/Users/adam/.local/share/nvim/site/pack/packer/opt/cmp-path",
+    url = "https://github.com/hrsh7th/cmp-path"
+  },
   ["cmp-vsnip"] = {
     after_files = { "/Users/adam/.local/share/nvim/site/pack/packer/opt/cmp-vsnip/after/plugin/cmp_vsnip.vim" },
     load_after = {
@@ -121,6 +131,12 @@ _G.packer_plugins = {
     only_cond = false,
     path = "/Users/adam/.local/share/nvim/site/pack/packer/opt/friendly-snippets",
     url = "/Users/adam/projects/friendly-snippets"
+  },
+  ["fzf-sc"] = {
+    config = { "\27LJ\2\nR\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\18search_plugin\rnvim-fzf\nsetup\vfzf-sc\frequire\0" },
+    loaded = true,
+    path = "/Users/adam/.local/share/nvim/site/pack/packer/start/fzf-sc",
+    url = "https://github.com/madskjeldgaard/fzf-sc"
   },
   ["gitsigns.nvim"] = {
     loaded = true,
@@ -158,7 +174,7 @@ _G.packer_plugins = {
     url = "https://github.com/windwp/nvim-autopairs"
   },
   ["nvim-cmp"] = {
-    after = { "cmp-cmdline", "friendly-snippets", "cmp-buffer", "cmp-vsnip", "nvim-autopairs" },
+    after = { "cmp-cmdline", "cmp-path", "friendly-snippets", "nvim-autopairs", "cmp-buffer", "cmp-vsnip" },
     config = { "\27LJ\2\n*\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\15cmp-config\frequire\0" },
     loaded = false,
     needs_bufread = false,
@@ -182,6 +198,11 @@ _G.packer_plugins = {
     only_cond = false,
     path = "/Users/adam/.local/share/nvim/site/pack/packer/opt/nvim-comment",
     url = "https://github.com/terrortylor/nvim-comment"
+  },
+  ["nvim-fzf"] = {
+    loaded = true,
+    path = "/Users/adam/.local/share/nvim/site/pack/packer/start/nvim-fzf",
+    url = "https://github.com/vijaymarupudi/nvim-fzf"
   },
   ["nvim-lsp-installer"] = {
     loaded = true,
@@ -268,6 +289,19 @@ _G.packer_plugins = {
     path = "/Users/adam/.local/share/nvim/site/pack/packer/start/seoul256.vim",
     url = "https://github.com/junegunn/seoul256.vim"
   },
+  ["supercollider-h4x-nvim"] = {
+    config = { "\27LJ\2\n?\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\22supercollider-h4x\frequire\0" },
+    load_after = {},
+    loaded = true,
+    needs_bufread = false,
+    path = "/Users/adam/.local/share/nvim/site/pack/packer/opt/supercollider-h4x-nvim",
+    url = "https://github.com/madskjeldgaard/supercollider-h4x-nvim"
+  },
+  ["telescope-file-browser.nvim"] = {
+    loaded = true,
+    path = "/Users/adam/.local/share/nvim/site/pack/packer/start/telescope-file-browser.nvim",
+    url = "https://github.com/nvim-telescope/telescope-file-browser.nvim"
+  },
   ["telescope.nvim"] = {
     commands = { "Telescope" },
     config = { "require'telescope-config'" },
@@ -292,14 +326,27 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: seoul256.vim
-time([[Config for seoul256.vim]], true)
-require'colorscheme.seoul256-light'
-time([[Config for seoul256.vim]], false)
 -- Config for: nvim-toggleterm.lua
 time([[Config for nvim-toggleterm.lua]], true)
 require"toggleterm-config"
 time([[Config for nvim-toggleterm.lua]], false)
+-- Config for: fzf-sc
+time([[Config for fzf-sc]], true)
+try_loadstring("\27LJ\2\nR\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\18search_plugin\rnvim-fzf\nsetup\vfzf-sc\frequire\0", "config", "fzf-sc")
+time([[Config for fzf-sc]], false)
+-- Config for: seoul256.vim
+time([[Config for seoul256.vim]], true)
+require'colorscheme.seoul256-light'
+time([[Config for seoul256.vim]], false)
+-- Load plugins in order defined by `after`
+time([[Sequenced loading]], true)
+vim.cmd [[ packadd scnvim ]]
+vim.cmd [[ packadd supercollider-h4x-nvim ]]
+
+-- Config for: supercollider-h4x-nvim
+try_loadstring("\27LJ\2\n?\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\22supercollider-h4x\frequire\0", "config", "supercollider-h4x-nvim")
+
+time([[Sequenced loading]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
@@ -312,9 +359,9 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
-vim.cmd [[au BufRead * ++once lua require("packer.load")({'nvim-colorizer.lua', 'nvim-lspconfig', 'lspsaga.nvim'}, { event = "BufRead *" }, _G.packer_plugins)]]
+vim.cmd [[au BufWinEnter * ++once lua require("packer.load")({'nvim-treesitter', 'lualine.nvim', 'which-key.nvim', 'dashboard-nvim'}, { event = "BufWinEnter *" }, _G.packer_plugins)]]
 vim.cmd [[au InsertEnter * ++once lua require("packer.load")({'friendly-snippets', 'nvim-cmp'}, { event = "InsertEnter *" }, _G.packer_plugins)]]
-vim.cmd [[au BufWinEnter * ++once lua require("packer.load")({'dashboard-nvim', 'nvim-treesitter', 'lualine.nvim', 'which-key.nvim'}, { event = "BufWinEnter *" }, _G.packer_plugins)]]
+vim.cmd [[au BufRead * ++once lua require("packer.load")({'nvim-lspconfig', 'nvim-colorizer.lua', 'lspsaga.nvim'}, { event = "BufRead *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end

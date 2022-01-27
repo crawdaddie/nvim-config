@@ -7,13 +7,18 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 local lspUtils = require((...)..'.utils')
 
 vim.o.updatetime = 250
-vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.lsp.diagnostic.show_line_diagnostics({focusable=false})]]
+local Border = {
+{"╭", "FloatBorder"},
+{"─", "FloatBorder"},
+{"╮", "FloatBorder"},
+{"│", "FloatBorder"},
+{"╯", "FloatBorder"},
+{"─", "FloatBorder"},
+{"╰", "FloatBorder"},
+{"│", "FloatBorder"},
+}
 
-vim.cmd("nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>")
-vim.cmd("nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>")
-vim.cmd("nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>")
-vim.cmd("nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>")
-vim.cmd('nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>')
+vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focusable=false})]]
 
 
 
@@ -56,9 +61,6 @@ vim.cmd('nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>')
 -- server_filetype_map = {}
 -- })
 
-vim.api.nvim_set_keymap("n", "<leader>r", ":Lspsaga rename<CR>", { noremap = true, silent = true })
-vim.cmd("nnoremap <silent> ca :Lspsaga code_action<CR>")
-vim.cmd("nnoremap <silent> <leader>k :Lspsaga hover_doc<CR>")
 -- vim.cmd("nnoremap <silent> <C-p> :Lspsaga diagnostic_jump_prev<CR>")
 -- vim.cmd("nnoremap <silent> <C-n> :Lspsaga diagnostic_jump_next<CR>")
 -- scroll down hover doc or scroll in definition preview
@@ -66,24 +68,42 @@ vim.cmd("nnoremap <silent> <leader>k :Lspsaga hover_doc<CR>")
 -- scroll up hover doc
 -- vim.cmd("nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>")
 -- vim.cmd('command! -nargs=0 LspVirtualTextToggle lua require("lsp/virtual_text").toggle()')
+-- Hover doc popup
+
+-- local pop_opts = { border = "rounded", max_width = 80 }
+-- handlers["textDocument/hover"] = vim.lsp.with(handlers.hover, pop_opts)
+-- handlers["textDocument/signatureHelp"] = vim.lsp.with(handlers.signature_help, pop_opts)
 
 
 
 -- Language servers
+
+local opts = {
+  capabilities = capabilities,
+  on_attach = function(client, bufnr)
+    lspUtils.documentHighlight(client, bufnr)
+    lspUtils.documentAutoFormat(client, bufnr)
+  end,
+  root_dir = function(_)
+    return vim.loop.cwd()
+  end,
+  handlers = {
+    ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+      virtual_text = false,
+      signs = true,
+      underline = true,
+      -- update_in_insert = true fucks up text as I'm typing - don't like it
+      update_in_insert = false,
+    }),
+  }
+}
+
 lsp_installer.on_server_ready(function(server)
     local config = Settings.language_servers[server] or { enabled = true }
     if config.enabled == true then
       if config.Settings_init then config.Settings_init(capabilities) end
-      local opts = config.setup or {
-        capabilities = capabilities,
-        on_attach = function(client, bufnr)
-          lspUtils.documentHighlight(client, bufnr)
-        end,
-        root_dir = function(_)
-          return vim.loop.cwd()
-        end
-      }
-      server:setup(opts)
+      local setup_opts = config.setup or opts
+      server:setup(setup_opts)
     end
 end)
 
@@ -106,22 +126,12 @@ end)
 lspconfig['tsserver'].setup({
     cmd = {DATA_PATH .. "/lspinstall/typescript/node_modules/.bin/typescript-language-server", "--stdio"},
     capabilities = capabilities,
-
     filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
-
-    on_attach = function(client, bufnr)
+    on_attach = function (client, bufnr)
       lspUtils.documentHighlight(client, bufnr)
-    end,
+    end, 
     root_dir = require('lspconfig/util').root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
-    handlers = {
-        ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-            virtual_text = false,
-            signs = true,
-            underline = true,
-            -- update_in_insert = true fucks up text as I'm typing - don't like it
-            update_in_insert = false 
-        }),
-    }
+    handlers = opts.handlers
 })
 
 require'lspconfig'.jsonls.setup {
@@ -139,45 +149,45 @@ require'lspconfig'.gopls.setup {cmd = {"gopls", "serve"}, settings = {gopls = {a
 -- Lua is a little bit different
 
 USER = vim.fn.expand('$USER')
-
-local sumneko_root_path = ""
-local sumneko_binary = ""
-
-if vim.fn.has("mac") == 1 then
-  sumneko_root_path = "/Users/" .. USER .. "/.config/nvim/ls/lua-language-server"
-  sumneko_binary = "/Users/" .. USER .. "/.config/nvim/ls/lua-language-server/bin/macOS/lua-language-server"
-elseif vim.fn.has("unix") == 1 then
-  sumneko_root_path = "/home/" .. USER .. "/.config/nvim/ls/lua-language-server"
-  sumneko_binary = "/home/" .. USER .. "/.config/nvim/ls/lua-language-server/bin/Linux/lua-language-server"
-elseif vim.fn.has("win32") == 1 then
-  sumneko_root_path = "C:\\Users\\" .. USER .. "\\AppData\\Local\\nvim\\ls\\lua-language-server"
-  sumneko_binary = "C:\\Users" .. USER .. "\\AppData\\Local\\nvim\\ls\\lua-language-server\\bin\\Windows\\lua-language-server"
-elseif Settings.language_servers.sumneko_lua['root_path'] ~= nil then
-  sumneko_root_path = Settings.language_servers.sumneko_lua.root_path
-  sumneko_binary = Settings.language_servers.sumneko_lua.binary_path
-else
-  print("Unsupported system for sumneko")
-end
-
-if Settings.language_servers.sumneko_lua.enabled and sumneko_binary ~= "" and not Settings.utils.file.exists(sumneko_binary) then
-  print('Unable to load Sumneko language server.  Make sure it is installed in ' .. sumneko_root_path)
-else
-  local luadev = Settings.utils.plugins.require('lua-dev')
-  local lua_lsp_config = {
-    cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
-    settings = {
-      Lua = {
-        runtime = {version = 'LuaJIT', path = vim.split(package.path, ';')},
-        diagnostics = {globals = {'vim'}},
-        workspace = {library = {[vim.fn.expand('$VIMRUNTIME/lua')] = true, [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true}, preloadFileSize = 450}
-      }
-    }
-  }
-
-  if luadev ~= nil then lua_lsp_config = luadev.setup {lspconfig = lua_lsp_config} end
-
-  require'lspconfig'.sumneko_lua.setup(lua_lsp_config)
-end
+-- 
+-- local sumneko_root_path = ""
+-- local sumneko_binary = ""
+-- 
+-- if vim.fn.has("mac") == 1 then
+--   sumneko_root_path = "/Users/" .. USER .. "/.config/nvim/ls/lua-language-server"
+--   sumneko_binary = "/Users/" .. USER .. "/.config/nvim/ls/lua-language-server/bin/macOS/lua-language-server"
+-- elseif vim.fn.has("unix") == 1 then
+--   sumneko_root_path = "/home/" .. USER .. "/.config/nvim/ls/lua-language-server"
+--   sumneko_binary = "/home/" .. USER .. "/.config/nvim/ls/lua-language-server/bin/Linux/lua-language-server"
+-- elseif vim.fn.has("win32") == 1 then
+--   sumneko_root_path = "C:\\Users\\" .. USER .. "\\AppData\\Local\\nvim\\ls\\lua-language-server"
+--   sumneko_binary = "C:\\Users" .. USER .. "\\AppData\\Local\\nvim\\ls\\lua-language-server\\bin\\Windows\\lua-language-server"
+-- elseif Settings.language_servers.sumneko_lua['root_path'] ~= nil then
+--   sumneko_root_path = Settings.language_servers.sumneko_lua.root_path
+--   sumneko_binary = Settings.language_servers.sumneko_lua.binary_path
+-- else
+--   print("Unsupported system for sumneko")
+-- end
+-- 
+-- if Settings.language_servers.sumneko_lua.enabled and sumneko_binary ~= "" and not Settings.utils.file.exists(sumneko_binary) then
+--   print('Unable to load Sumneko language server.  Make sure it is installed in ' .. sumneko_root_path)
+-- else
+--   local luadev = Settings.utils.plugins.require('lua-dev')
+--   local lua_lsp_config = {
+--     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
+--     settings = {
+--       Lua = {
+--         runtime = {version = 'LuaJIT', path = vim.split(package.path, ';')},
+--         diagnostics = {globals = {'vim'}},
+--         workspace = {library = {[vim.fn.expand('$VIMRUNTIME/lua')] = true, [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true}, preloadFileSize = 450}
+--       }
+--     }
+--   }
+-- 
+--   if luadev ~= nil then lua_lsp_config = luadev.setup {lspconfig = lua_lsp_config} end
+-- 
+--   require'lspconfig'.sumneko_lua.setup(lua_lsp_config)
+-- end
 
 -- Diagnostics
 

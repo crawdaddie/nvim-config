@@ -37,7 +37,6 @@ return packer.startup(function(use)
     }
     use {'hoob3rt/lualine.nvim', disable = not is_enabled('lualine'), config = "require'lualine-config'", event = 'BufWinEnter'}
     use {'glepnir/dashboard-nvim', disable = not is_enabled('dashboard'), config = "require'dashboard-config'", event = 'BufWinEnter'}
-    use {'lukas-reineke/indent-blankline.nvim', disable = not is_enabled('indent_blankline'), config = "require'blankline-config'", event = "BufRead"}
 
     -- Tree-Sitter
     use {
@@ -91,6 +90,8 @@ return packer.startup(function(use)
     use {'hrsh7th/cmp-nvim-lsp', disable = not is_enabled('cmp')}
     use {'hrsh7th/cmp-buffer', after = "nvim-cmp", disable = not is_enabled('cmp')}
     use {'hrsh7th/cmp-cmdline', after = "nvim-cmp", disable = not is_enabled('cmp')}
+    use {'hrsh7th/cmp-path', after = "nvim-cmp", disable = not is_enabled('cmp')}
+
     -- use {'hrsh7th/cmp-vsnip', disable = not is_enabled('cmp'), after = "nvim-cmp"}
 
     use {
@@ -122,13 +123,32 @@ return packer.startup(function(use)
         config = "require'telescope-config'"
     }
     use {'kyazdani42/nvim-tree.lua', cmd = "NvimTreeToggle", disable = not is_enabled('nvim_tree'), config = "require'nvimtree-config'"}
+    use { "nvim-telescope/telescope-file-browser.nvim" }
 
     -- Other
     use {'terrortylor/nvim-comment', cmd = "CommentToggle", config = "require('nvim_comment').setup()", disable = not is_enabled('nvim_comment')}
     -- use {'lukas-reineke/format.nvim', disable = not is_enabled('format'), config = "require'formatting'"}
     use {'folke/which-key.nvim', event = "BufWinEnter"}
     use { '/Users/adam/projects/sc/scnvim' }
-
-
+    use { 'madskjeldgaard/supercollider-h4x-nvim',
+      config = function()
+          require'supercollider-h4x'.setup()
+      end,
+      after = {'scnvim'},
+      requires = {
+        '/Users/adam/projects/sc/scnvim' 
+        -- 'davidgranstrom/scnvim'
+      }
+    }
+    use {
+      'madskjeldgaard/fzf-sc',
+      config = function()
+        require'fzf-sc'.setup({ search_plugin = "nvim-fzf", })
+      end,
+      requires = {
+        'vijaymarupudi/nvim-fzf',
+        '/Users/adam/projects/sc/scnvim' 
+      }
+    }
     for _, plugin in pairs(Settings.plugins.user) do use(plugin) end
 end)

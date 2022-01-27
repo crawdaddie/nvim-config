@@ -5,7 +5,7 @@ local documentHighlight = function(client, bufnr)
         vim.api.nvim_exec([[
     hi LspDiagnosticsDefaultHint gui=italic guifg=grey
     hi LspDiagnosticsDefaultError gui=italic guifg=#ef7872
-    hi LspDiagnosticsDefaultWarning gui=italic guifg=orange
+    hi LspDiagnosticsDefaultWarning gui=italic guifg=#f4a46e
     hi LspDiagnosticsDefaultInformation gui=italic guifg=purple
 
     hi LspReferenceRead cterm=bold ctermbg=red guibg=#d9d8d3
@@ -22,5 +22,15 @@ local documentHighlight = function(client, bufnr)
     end
 end
 
+local documentAutoFormat = function ()
+  vim.cmd [[
+    augroup Format
+      au! * <buffer>
+      au BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)
+    augroup END
+  ]]
+end
+
 utils.documentHighlight = documentHighlight
+utils.documentAutoFormat = documentAutoFormat
 return utils

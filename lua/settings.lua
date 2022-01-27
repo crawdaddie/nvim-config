@@ -36,7 +36,6 @@ Settings = {
     gopls = {enabled = true, setup = {cmd = {"gopls", "serve"}, settings = {gopls = {analyses = {unusedparams = true}, staticcheck = true}}}}
   },
   plugins = {
-    indent_blankline = {enabled = false, enable_rainbow_colors = false},
     colorizer = {enabled = true},
     autopairs = {enabled = true},
     gitsigns = {enabled = true},
@@ -69,10 +68,10 @@ Settings = {
     treesitter = {
       enabled = true,
       ensure_installed = "all",
-      ignore_install = {"haskell"},
-      indent = {enable = false},
+      ignore_install = {"haskell", disable = { "supercollider" }},
+      indent = {enable = true, disable = { "supercollider" }},
       highlight = {enable = true, disable = { "supercollider" }},
-      autotag = {enable = true},
+      autotag = {enable = true, disable = { "supercollider" }},
       rainbow = {enable = true, extended_mode = false, disable = {"html", "supercollider"}}
     },
     vsnip = {enabled = true},

@@ -35,5 +35,28 @@ vim.api.nvim_set_keymap('i', '<C-s>', '<C-o>:w!<CR>', {noremap = true, silent = 
 -- leave vim
 vim.api.nvim_set_keymap("n", "<C-c><C-d>", ":wqa!<CR>", { noremap = true })
 
+-- lsp
+vim.api.nvim_set_keymap("n", "<leader>r", ":Lspsaga rename<CR>", { noremap = true, silent = true })
+vim.cmd("nnoremap <silent> ca :Lspsaga code_action<CR>")
+vim.cmd("nnoremap <silent> <leader>k :Lspsaga hover_doc<CR>")
+
+vim.cmd("nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>")
+vim.cmd("nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>")
+vim.cmd("nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>")
+vim.cmd("nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>")
+vim.cmd('nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>')
+
+-- supercollider
+vim.api.nvim_set_keymap('n', '<C-a>', ':SCNvimSendBlock<CR>', { noremap = true, silent = true})
+vim.api.nvim_set_keymap('i', '<C-a>', '<c-o>:SCNvimSendBlock<CR>', { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<C-.>', ':SCNvimCmdPeriod<CR>', { noremap = true, silent = true})
+vim.api.nvim_set_keymap('i', '<C-.>', ':SCNvimCmdPeriod<CR>', { noremap = true, silent = true})
+
+vim.api.nvim_set_keymap('n', '<leader>sr', ':SCNvimRecompile<CR>', { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>sb', ':SCNvimStart<CR>', { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>sx', ':SCNvimCmdPeriod<CR>', { noremap = true, silent = true})
+
+
+
 
 

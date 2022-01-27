@@ -53,14 +53,14 @@ cmp.setup({
   },
   sources = {
     {name = 'nvim_lsp'},
-    {name = 'vsnip'},
-    {name = 'buffer'},
     {name = 'path'},
+    {name = 'buffer'},
+    {name = 'vsnip'},
   }
 })
 
 cmp.setup.cmdline('/', {
-  completion = { autocomplete = false },
+  -- completion = { autocomplete = false },
   sources = {
     { name = 'buffer' }
   }
