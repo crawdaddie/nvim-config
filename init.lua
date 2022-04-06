@@ -19,8 +19,4 @@ require('which-key-config')
 if Settings.settings.transparent_bg then vim.cmd('hi Normal guibg=NONE ctermbg=NONE') end
 vim.cmd('highlight clear LineNr')
 require('scnvim-config')
-
-vim.api.nvim_exec([[
-  autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
-  set title
-]], false)
+require('autocmd')

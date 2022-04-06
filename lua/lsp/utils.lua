@@ -3,10 +3,17 @@ local documentHighlight = function(client, bufnr)
     -- Set autocommands conditional on server_capabilities
     if client.resolved_capabilities.document_highlight then
         vim.api.nvim_exec([[
-    hi LspDiagnosticsDefaultHint gui=italic guifg=grey
     hi LspDiagnosticsDefaultError gui=italic guifg=#ef7872
     hi LspDiagnosticsDefaultWarning gui=italic guifg=#f4a46e
-    hi LspDiagnosticsDefaultInformation gui=italic guifg=purple
+    hi LspDiagnosticsDefaultHint gui=italic guifg=#6a6765
+    hi LspDiagnosticsDefaultInformation gui=italic guifg=#6a6765
+    hi link LspDiagnosticsDefaultHint DiagnosticHint
+    hi link LspDiagnosticsDefaultInformation DiagnosticInfo
+    hi! link DiagnosticHint #6a6765
+    hi! link DiagnosticInfo #6a6765
+
+
+
 
     hi LspReferenceRead cterm=bold ctermbg=red guibg=#d9d8d3
     hi LspReferenceText cterm=bold ctermbg=red guibg=#d9d8d3

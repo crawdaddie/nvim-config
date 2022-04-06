@@ -32,7 +32,7 @@ return packer.startup(function(use)
         'akinsho/nvim-bufferline.lua',
         requires = 'kyazdani42/nvim-web-devicons',
         config = 'require"bufferline-config"',
-        disable = not is_enabled('bufferline'),
+        disable = true,
         event = 'BufWinEnter'
     }
     use {'hoob3rt/lualine.nvim', disable = not is_enabled('lualine'), config = "require'lualine-config'", event = 'BufWinEnter'}
@@ -150,5 +150,13 @@ return packer.startup(function(use)
         '/Users/adam/projects/sc/scnvim' 
       }
     }
+
+    use {
+      'rottencandy/vimkubectl'
+    }
+
+    use { 'joukevandermaas/vim-ember-hbs' }
+
+
     for _, plugin in pairs(Settings.plugins.user) do use(plugin) end
 end)
