@@ -95,3 +95,5 @@ vim.o.swapfile = false -- Do not write any swp files
 --vim.o.timeoutlen = 100 -- By default timeoutlen is 1000 ms
 --vim.o.smartcase = O.smart_case
 --vim.g.gitblame_enabled = 0
+--
+-- vim.api.nvim_set_hl(0, 'WinSeparator', { fg = 'black', bold = true })

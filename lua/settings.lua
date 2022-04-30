@@ -68,7 +68,7 @@ Settings = {
     treesitter = {
       enabled = true,
       ensure_installed = "all",
-      ignore_install = {"haskell", disable = { "supercollider" }},
+      ignore_install = {"haskell", "php", "phpdoc", "supercollider" },
       indent = {enable = true, disable = { "supercollider" }},
       highlight = {enable = true, disable = { "supercollider" }},
       autotag = {enable = true, disable = { "supercollider" }},

@@ -19,14 +19,14 @@ cmp.setup({
   },
   formatting = {
     format = lspkind.cmp_format(
-        {with_text = true, maxwidth = 50, menu = {buffer = "[Buf]", nvim_lsp = "[LSP]", dictionary = "[Dict]", vsnip = "[Vsnip]"}})
+      { with_text = true, maxwidth = 50, menu = { buffer = "[Buf]", nvim_lsp = "[LSP]", dictionary = "[Dict]", vsnip = "[Vsnip]" } })
   },
   mapping = {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-o>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm({select = true}),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -37,7 +37,7 @@ cmp.setup({
       else
         fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
       end
-    end, {"i", "s"}),
+    end, { "i", "s" }),
 
     ["<S-Tab>"] = cmp.mapping(function()
       if cmp.visible() then
@@ -45,17 +45,19 @@ cmp.setup({
       elseif vim.fn["vsnip#jumpable"](-1) == 1 then
         feedkey("<Plug>(vsnip-jump-prev)", "")
       end
-    end, {"i", "s"})
+    end, { "i", "s" })
   },
-  documentation = {
-    zindex = 100,
-    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+  window = {
+    documentation = {
+      zindex = 100,
+      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+    },
   },
   sources = {
-    {name = 'nvim_lsp'},
-    {name = 'path'},
-    {name = 'buffer'},
-    {name = 'vsnip'},
+    { name = 'nvim_lsp' },
+    { name = 'path' },
+    { name = 'buffer' },
+    { name = 'vsnip' },
   }
 })
 
@@ -65,12 +67,12 @@ cmp.setup.cmdline('/', {
     { name = 'buffer' }
   }
 })
-  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {
-    sources = {
-      { name = 'path' },
-      { name = 'cmdline' }
-    }
+  sources = {
+    { name = 'path' },
+    { name = 'cmdline' }
+  }
 })
 
 
