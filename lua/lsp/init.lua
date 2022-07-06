@@ -4,18 +4,19 @@ local lspconfig = Settings.utils.plugins.require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-local lspUtils = require((...)..'.utils')
+-- require((...) .. '.sc')
+local lspUtils = require((...) .. '.utils')
 
 vim.o.updatetime = 250
 local Border = {
-{"╭", "FloatBorder"},
-{"─", "FloatBorder"},
-{"╮", "FloatBorder"},
-{"│", "FloatBorder"},
-{"╯", "FloatBorder"},
-{"─", "FloatBorder"},
-{"╰", "FloatBorder"},
-{"│", "FloatBorder"},
+  { "╭", "FloatBorder" },
+  { "─", "FloatBorder" },
+  { "╮", "FloatBorder" },
+  { "│", "FloatBorder" },
+  { "╯", "FloatBorder" },
+  { "─", "FloatBorder" },
+  { "╰", "FloatBorder" },
+  { "│", "FloatBorder" },
 }
 
 vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focusable=false})]]
@@ -99,12 +100,12 @@ local opts = {
 }
 
 lsp_installer.on_server_ready(function(server)
-    local config = Settings.language_servers[server] or { enabled = true }
-    if config.enabled == true then
-      if config.Settings_init then config.Settings_init(capabilities) end
-      local setup_opts = config.setup or opts
-      server:setup(setup_opts)
-    end
+  local config = Settings.language_servers[server] or { enabled = true }
+  if config.enabled == true then
+    if config.Settings_init then config.Settings_init(capabilities) end
+    local setup_opts = config.setup or opts
+    server:setup(setup_opts)
+  end
 end)
 
 -- for ls_type, props in pairs(Settings.language_servers) do
@@ -124,35 +125,35 @@ end)
 
 
 lspconfig['tsserver'].setup({
-    cmd = {DATA_PATH .. "/lspinstall/typescript/node_modules/.bin/typescript-language-server", "--stdio"},
-    capabilities = capabilities,
-    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
-    on_attach = function (client, bufnr)
-      lspUtils.documentHighlight(client, bufnr)
-    end, 
-    root_dir = require('lspconfig/util').root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
-    handlers = opts.handlers
+  cmd = { DATA_PATH .. "/lspinstall/typescript/node_modules/.bin/typescript-language-server", "--stdio" },
+  capabilities = capabilities,
+  filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+  on_attach = function(client, bufnr)
+    lspUtils.documentHighlight(client, bufnr)
+  end,
+  root_dir = require('lspconfig/util').root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
+  handlers = opts.handlers
 })
 
-require'lspconfig'.jsonls.setup {
+require 'lspconfig'.jsonls.setup {
   commands = {
     Format = {
       function()
-        vim.lsp.buf.range_formatting({}, {0, 0}, {vim.fn.line("$"), 0})
+        vim.lsp.buf.range_formatting({}, { 0, 0 }, { vim.fn.line("$"), 0 })
       end
     }
   }
 }
 
-require'lspconfig'.gopls.setup {cmd = {"gopls", "serve"}, settings = {gopls = {analyses = {unusedparams = true}, staticcheck = true}}}
+require 'lspconfig'.gopls.setup { cmd = { "gopls", "serve" }, settings = { gopls = { analyses = { unusedparams = true }, staticcheck = true } } }
 
 -- Lua is a little bit different
 
 USER = vim.fn.expand('$USER')
--- 
+--
 -- local sumneko_root_path = ""
 -- local sumneko_binary = ""
--- 
+--
 -- if vim.fn.has("mac") == 1 then
 --   sumneko_root_path = "/Users/" .. USER .. "/.config/nvim/ls/lua-language-server"
 --   sumneko_binary = "/Users/" .. USER .. "/.config/nvim/ls/lua-language-server/bin/macOS/lua-language-server"
@@ -168,7 +169,7 @@ USER = vim.fn.expand('$USER')
 -- else
 --   print("Unsupported system for sumneko")
 -- end
--- 
+--
 -- if Settings.language_servers.sumneko_lua.enabled and sumneko_binary ~= "" and not Settings.utils.file.exists(sumneko_binary) then
 --   print('Unable to load Sumneko language server.  Make sure it is installed in ' .. sumneko_root_path)
 -- else
@@ -183,19 +184,19 @@ USER = vim.fn.expand('$USER')
 --       }
 --     }
 --   }
--- 
+--
 --   if luadev ~= nil then lua_lsp_config = luadev.setup {lspconfig = lua_lsp_config} end
--- 
+--
 --   require'lspconfig'.sumneko_lua.setup(lua_lsp_config)
 -- end
 
 -- Diagnostics
 
-local signs = {Error = " ", Warn = " ", Hint = " ", Info = " "}
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = ""})
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
 -- Show icons in autocomplete
@@ -205,36 +206,36 @@ end
 -- }
 -- symbols for autocomplete
 require('vim.lsp.protocol').CompletionItemKind = {
-    "   (Text) ",
-    "   (Method)",
-    "   (Function)",
-    "   (Constructor)",
-    " ﴲ  (Field)",
-    "[] (Variable)",
-    "   (Class)",
-    " ﰮ  (Interface)",
-    "   (Module)",
-    " 襁 (Property)",
-    "   (Unit)",
-    "   (Value)",
-    " 練 (Enum)",
-    "   (Keyword)",
-    "   (Snippet)",
-    "   (Color)",
-    "   (File)",
-    "   (Reference)",
-    "   (Folder)",
-    "   (EnumMember)",
-    " ﲀ  (Constant)",
-    " ﳤ  (Struct)",
-    "   (Event)",
-    "   (Operator)",
-    "   (TypeParameter)"
+  "   (Text) ",
+  "   (Method)",
+  "   (Function)",
+  "   (Constructor)",
+  " ﴲ  (Field)",
+  "[] (Variable)",
+  "   (Class)",
+  " ﰮ  (Interface)",
+  "   (Module)",
+  " 襁 (Property)",
+  "   (Unit)",
+  "   (Value)",
+  " 練 (Enum)",
+  "   (Keyword)",
+  "   (Snippet)",
+  "   (Color)",
+  "   (File)",
+  "   (Reference)",
+  "   (Folder)",
+  "   (EnumMember)",
+  " ﲀ  (Constant)",
+  " ﳤ  (Struct)",
+  "   (Event)",
+  "   (Operator)",
+  "   (TypeParameter)"
 }
 
 
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
   underline = true,
-  virtual_text = {spacing = 5, severity_limit = 'Warning'},
+  virtual_text = { spacing = 5, severity_limit = 'Warning' },
   update_in_insert = false
 })
