@@ -18,5 +18,5 @@ require('gitsigns-config')
 require('which-key-config')
 if Settings.settings.transparent_bg then vim.cmd('hi Normal guibg=NONE ctermbg=NONE') end
 vim.cmd('highlight clear LineNr')
-require('scnvim-config')
+-- require('scnvim-config')
 require('autocmd')

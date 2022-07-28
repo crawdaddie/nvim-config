@@ -60,11 +60,11 @@ return packer.startup(function(use)
   -- themes
   -- use { "projekt0n/github-nvim-theme" }
   use { "junegunn/seoul256.vim", config = "require'colorscheme.seoul256-light'" }
-  use({
-    "catppuccin/nvim",
-    as = "catppuccin"
-  })
-
+  -- use({
+  --   "catppuccin/nvim",
+  --   as = "catppuccin"
+  -- })
+  --
   -- Icons
   use { "kyazdani42/nvim-web-devicons" }
   -- use {"glepnir/galaxyline.nvim"}
@@ -125,7 +125,7 @@ return packer.startup(function(use)
     requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } },
     cmd = "Telescope",
     disable = not is_enabled('telescope'),
-    config = "require'telescope-config'"
+    config = "require'telescope-config'",
   }
   use { 'kyazdani42/nvim-tree.lua', cmd = "NvimTreeToggle", disable = not is_enabled('nvim_tree'), config = "require'nvimtree-config'" }
   use { "nvim-telescope/telescope-file-browser.nvim" }
@@ -134,7 +134,15 @@ return packer.startup(function(use)
   use { 'terrortylor/nvim-comment', cmd = "CommentToggle", config = "require('nvim_comment').setup()", disable = not is_enabled('nvim_comment') }
   -- use {'lukas-reineke/format.nvim', disable = not is_enabled('format'), config = "require'formatting'"}
   use { 'folke/which-key.nvim', event = "BufWinEnter" }
-  use { '/Users/adam/projects/sc/scnvim' }
+
+  use {
+    -- 'crawdaddie/scnvim',
+    '/Users/adam/projects/sc/scnvim-fork',
+    config = function()
+      require('scnvim-config').setup()
+    end,
+    requires = { 'nvim-telescope/telescope.nvim' },
+  }
   -- use { 'madskjeldgaard/supercollider-h4x-nvim',
   --   config = function()
   --     require 'supercollider-h4x'.setup()
@@ -159,6 +167,10 @@ return packer.startup(function(use)
   use {
     'rottencandy/vimkubectl'
   }
+  -- use {
+  --   "SmiteshP/nvim-navic",
+  --   requires = "neovim/nvim-lspconfig"
+  -- }
 
   -- jupyter
   -- use { '/Users/adam/projects/magma-nvim',
@@ -169,6 +181,8 @@ return packer.startup(function(use)
   -- use { 'jupyter-vim/jupyter-vim' }
   -- use { 'jpalardy/vim-slime', config = "require'vim-slime-config'" }
   -- use { 'hanschen/vim-ipython-cell', config = "require'ipython-cell-config'" }
+  --
+  -- use { '/Users/adam/projects/nvim-py-repl' }
 
   for _, plugin in pairs(Settings.plugins.user) do use(plugin) end
 end)
