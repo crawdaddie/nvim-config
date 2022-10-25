@@ -50,24 +50,9 @@ return packer.startup(function(use)
   use { 'windwp/nvim-ts-autotag', disable = not is_enabled('treesitter'), after = 'nvim-treesitter' }
 
   -- Colorschemes
-  -- use {'rose-pine/neovim', as = 'rose-pine', opt = true}
-  -- use {'joshdick/onedark.vim', opt = true}
-  -- use {'gruvbox-community/gruvbox', opt = true}
-  -- use {'shaunsingh/nord.nvim', opt = true}
-  -- use {'folke/tokyonight.nvim', opt = true}
-  -- use {'dracula/vim', as = 'dracula', opt = true}
-  -- use {'tiagovla/tokyodark.nvim', opt = true}
-  -- themes
-  -- use { "projekt0n/github-nvim-theme" }
   use { "junegunn/seoul256.vim", config = "require'colorscheme.seoul256-light'" }
-  -- use({
-  --   "catppuccin/nvim",
-  --   as = "catppuccin"
-  -- })
-  --
   -- Icons
   use { "kyazdani42/nvim-web-devicons" }
-  -- use {"glepnir/galaxyline.nvim"}
 
 
   -- LSP
@@ -132,57 +117,12 @@ return packer.startup(function(use)
 
   -- Other
   use { 'terrortylor/nvim-comment', cmd = "CommentToggle", config = "require('nvim_comment').setup()", disable = not is_enabled('nvim_comment') }
-  -- use {'lukas-reineke/format.nvim', disable = not is_enabled('format'), config = "require'formatting'"}
   use { 'folke/which-key.nvim', event = "BufWinEnter" }
 
-  use {
-    -- 'crawdaddie/scnvim',
-    '/Users/adam/projects/sc/scnvim-fork',
-    config = function()
-      require('scnvim-config').setup()
-    end,
-    requires = { 'nvim-telescope/telescope.nvim' },
-  }
-  -- use { 'madskjeldgaard/supercollider-h4x-nvim',
-  --   config = function()
-  --     require 'supercollider-h4x'.setup()
-  --   end,
-  --   after = { 'scnvim' },
-  --   requires = {
-  --     '/Users/adam/projects/sc/scnvim'
-  --     -- 'davidgranstrom/scnvim'
-  --   }
-  -- }
-  -- use {
-  --   'madskjeldgaard/fzf-sc',
-  --   config = function()
-  --     require 'fzf-sc'.setup({ search_plugin = "nvim-fzf", })
-  --   end,
-  --   requires = {
-  --     'vijaymarupudi/nvim-fzf',
-  --     '/Users/adam/projects/sc/scnvim'
-  --   }
-  -- }
 
   use {
     'rottencandy/vimkubectl'
   }
-  -- use {
-  --   "SmiteshP/nvim-navic",
-  --   requires = "neovim/nvim-lspconfig"
-  -- }
-
-  -- jupyter
-  -- use { '/Users/adam/projects/magma-nvim',
-  --   config = "require'nvim-magma-config'",
-  --   -- disable = not is_enabled('magmanvim'),
-  -- run = ':UpdateRemotePlugins'
-  -- }
-  -- use { 'jupyter-vim/jupyter-vim' }
-  -- use { 'jpalardy/vim-slime', config = "require'vim-slime-config'" }
-  -- use { 'hanschen/vim-ipython-cell', config = "require'ipython-cell-config'" }
-  --
-  -- use { '/Users/adam/projects/nvim-py-repl' }
 
   for _, plugin in pairs(Settings.plugins.user) do use(plugin) end
 end)

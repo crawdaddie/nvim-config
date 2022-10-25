@@ -107,13 +107,15 @@ require 'nvim-tree'.setup {
     auto_resize = true,
     mappings = { custom_only = false, list = bindings }
   },
+  filters = {
+    custom = { ".DS_Store", ".git", "node_modules", ".cache" },
+  },
   nvim_tree_hide_dotfiles = 0,
   nvim_tree_auto_open = 0,
   nvim_tree_auto_close = 1,
   nvim_tree_indent_markers = 0,
   nvim_tree_lsp_diagnostics = 1,
   nvim_tree_quit_on_open = 1,
-  nvim_tree_ignore = { ".DS_Store", ".git", "node_modules", ".cache" },
   nvim_tree_follow = 1,
   nvim_tree_tab_open = 0,
   auto_close = true,
