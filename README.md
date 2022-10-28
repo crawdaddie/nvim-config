@@ -2,4 +2,4 @@
 copy or link this directory directly into `~/.config/`
 
 ## dependencies:
-[ripgrep]("https://github.com/BurntSushi/ripgrep") for searching with telescope
+[ripgrep](https://github.com/BurntSushi/ripgrep) for searching with telescope
