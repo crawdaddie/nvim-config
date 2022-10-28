@@ -1,7 +1,7 @@
 local utils = {}
 local documentHighlight = function(client, bufnr)
     -- Set autocommands conditional on server_capabilities
-    if client.resolved_capabilities.document_highlight then
+    if client.server_capabilities.document_highlight then
         vim.api.nvim_exec([[
     hi LspDiagnosticsDefaultError gui=italic guifg=#ef7872
     hi LspDiagnosticsDefaultWarning gui=italic guifg=#f4a46e
@@ -33,7 +33,7 @@ local documentAutoFormat = function ()
   vim.cmd [[
     augroup Format
       au! * <buffer>
-      au BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)
+      au BufWritePre <buffer> lua vim.lsp.buf.format()
     augroup END
   ]]
 end
