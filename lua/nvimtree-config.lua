@@ -109,6 +109,7 @@ require 'nvim-tree'.setup {
   },
   filters = {
     custom = { ".DS_Store", ".git", "node_modules", ".cache" },
+    dotfiles = false,
   },
   nvim_tree_hide_dotfiles = 0,
   nvim_tree_auto_open = 0,
