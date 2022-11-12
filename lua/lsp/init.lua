@@ -4,7 +4,6 @@ local lspconfig = Settings.utils.plugins.require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
--- require((...) .. '.sc')
 local lspUtils = require((...) .. '.utils')
 
 vim.o.updatetime = 250
@@ -23,62 +22,7 @@ vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {f
 
 
 
--- local saga = require 'lspsaga'
--- saga.init_lsp_saga({
--- add your config value here
--- default value
--- use_saga_diagnostic_sign = true
--- error_sign = '',
--- warn_sign = '',
--- hint_sign = '',
--- infor_sign = '',
--- dianostic_header_icon = '   ',
--- code_action_icon = ' ',
--- code_action_prompt = {
---   enable = true,
---   sign = false,
---   sign_priority = 20,
---   virtual_text = false,
--- },
--- finder_definition_icon = '  ',
--- finder_reference_icon = '  ',
--- max_preview_lines = 10, -- preview lines of lsp_finder and definition preview
--- finder_action_keys = {
---   open = 'o', vsplit = 's',split = 'i',quit = 'q',scroll_down = '<C-f>', scroll_up = '<C-b>' -- quit can be a table
--- },
--- code_action_keys = {
---   quit = 'q',exec = '<CR>'
--- },
--- rename_action_keys = {
---   quit = '<C-c>',exec = '<CR>'  -- quit can be a table
--- },
--- definition_preview_icon = '  '
--- "single" "double" "round" "plus"
--- border_style = "single"
--- rename_prompt_prefix = '➤',
--- if you don't use nvim-lspconfig you must pass your server name and
--- the related filetypes into this table
--- like server_filetype_map = {metals = {'sbt', 'scala'}}
--- server_filetype_map = {}
--- })
-
--- vim.cmd("nnoremap <silent> <C-p> :Lspsaga diagnostic_jump_prev<CR>")
--- vim.cmd("nnoremap <silent> <C-n> :Lspsaga diagnostic_jump_next<CR>")
--- scroll down hover doc or scroll in definition preview
--- vim.cmd("nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>")
--- scroll up hover doc
--- vim.cmd("nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>")
--- vim.cmd('command! -nargs=0 LspVirtualTextToggle lua require("lsp/virtual_text").toggle()')
--- Hover doc popup
-
--- local pop_opts = { border = "rounded", max_width = 80 }
--- handlers["textDocument/hover"] = vim.lsp.with(handlers.hover, pop_opts)
--- handlers["textDocument/signatureHelp"] = vim.lsp.with(handlers.signature_help, pop_opts)
-
-
-
 -- Language servers
-
 local opts = {
   capabilities = capabilities,
   on_attach = function(client, bufnr)
@@ -108,21 +52,6 @@ lsp_installer.on_server_ready(function(server)
   end
 end)
 
--- for ls_type, props in pairs(Settings.language_servers) do
---   if props.enabled == true then
---     if props.Settings_init then props.Settings_init(capabilities) end
---     lspconfig[ls_type].setup(props.setup or {
---       capabilities = capabilities,
---       on_attach = function(client, bufnr)
---         lspUtils.documentHighlight(client, bufnr)
---       end,
---       root_dir = function(_)
---         return vim.loop.cwd()
---       end
---     })
---   end
--- end
-
 
 lspconfig['tsserver'].setup({
   cmd = { DATA_PATH .. "/lspinstall/typescript/node_modules/.bin/typescript-language-server", "--stdio" },
@@ -134,6 +63,20 @@ lspconfig['tsserver'].setup({
   root_dir = require('lspconfig/util').root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
   handlers = opts.handlers
 })
+
+lspconfig['ccls'].setup({
+  init_options = {
+    preferences = {
+      importModuleSpecifierPreference = "relative"
+    }
+  },
+  cmd = { "/usr/bin/ccls" },
+  capabilities = capabilities,
+  filetypes = { "c", "cpp" },
+  root_dir = require('lspconfig/util').root_pattern(".ccls", ".git"),
+  handlers = opts.handlers
+})
+
 
 require 'lspconfig'.jsonls.setup {
   commands = {
@@ -150,48 +93,6 @@ require 'lspconfig'.gopls.setup { cmd = { "gopls", "serve" }, settings = { gopls
 -- Lua is a little bit different
 
 USER = vim.fn.expand('$USER')
---
--- local sumneko_root_path = ""
--- local sumneko_binary = ""
---
--- if vim.fn.has("mac") == 1 then
---   sumneko_root_path = "/Users/" .. USER .. "/.config/nvim/ls/lua-language-server"
---   sumneko_binary = "/Users/" .. USER .. "/.config/nvim/ls/lua-language-server/bin/macOS/lua-language-server"
--- elseif vim.fn.has("unix") == 1 then
---   sumneko_root_path = "/home/" .. USER .. "/.config/nvim/ls/lua-language-server"
---   sumneko_binary = "/home/" .. USER .. "/.config/nvim/ls/lua-language-server/bin/Linux/lua-language-server"
--- elseif vim.fn.has("win32") == 1 then
---   sumneko_root_path = "C:\\Users\\" .. USER .. "\\AppData\\Local\\nvim\\ls\\lua-language-server"
---   sumneko_binary = "C:\\Users" .. USER .. "\\AppData\\Local\\nvim\\ls\\lua-language-server\\bin\\Windows\\lua-language-server"
--- elseif Settings.language_servers.sumneko_lua['root_path'] ~= nil then
---   sumneko_root_path = Settings.language_servers.sumneko_lua.root_path
---   sumneko_binary = Settings.language_servers.sumneko_lua.binary_path
--- else
---   print("Unsupported system for sumneko")
--- end
---
--- if Settings.language_servers.sumneko_lua.enabled and sumneko_binary ~= "" and not Settings.utils.file.exists(sumneko_binary) then
---   print('Unable to load Sumneko language server.  Make sure it is installed in ' .. sumneko_root_path)
--- else
---   local luadev = Settings.utils.plugins.require('lua-dev')
---   local lua_lsp_config = {
---     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
---     settings = {
---       Lua = {
---         runtime = {version = 'LuaJIT', path = vim.split(package.path, ';')},
---         diagnostics = {globals = {'vim'}},
---         workspace = {library = {[vim.fn.expand('$VIMRUNTIME/lua')] = true, [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true}, preloadFileSize = 450}
---       }
---     }
---   }
---
---   if luadev ~= nil then lua_lsp_config = luadev.setup {lspconfig = lua_lsp_config} end
---
---   require'lspconfig'.sumneko_lua.setup(lua_lsp_config)
--- end
-
--- Diagnostics
-
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 
 for type, icon in pairs(signs) do
@@ -199,11 +100,6 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
--- Show icons in autocomplete
--- require('vim.lsp.protocol').CompletionItemKind = {
---   '', '', 'ƒ', ' ', '', '', '', 'ﰮ', '', '', '', '', '了', ' ', '﬌ ', ' ', ' ', '', ' ', ' ',
---   ' ', ' ', '', '', '<>'
--- }
 -- symbols for autocomplete
 require('vim.lsp.protocol').CompletionItemKind = {
   "   (Text) ",
