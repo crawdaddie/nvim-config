@@ -1,8 +1,13 @@
 local actions = require('telescope.actions')
 local pickers = require('telescope.pickers')
+local finders = require("telescope.finders")
+
+
+
 require('telescope').setup {
   defaults = {
-    layout_config = { width = 0.75, prompt_position = "bottom", preview_cutoff = 120, horizontal = { mirror = false }, vertical = { mirror = false } },
+    layout_config = { width = 0.75, prompt_position = "bottom", preview_cutoff = 120, horizontal = { mirror = false },
+      vertical = { mirror = false } },
     find_command = { 'rg', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case' },
     prompt_prefix = " ",
     selection_caret = " ",

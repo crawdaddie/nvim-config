@@ -19,7 +19,8 @@ cmp.setup({
   },
   formatting = {
     format = lspkind.cmp_format(
-      { with_text = true, maxwidth = 50, menu = { buffer = "[Buf]", nvim_lsp = "[LSP]", dictionary = "[Dict]", vsnip = "[Vsnip]" } })
+      { with_text = true, maxwidth = 50,
+        menu = { buffer = "[Buf]", nvim_lsp = "[LSP]", dictionary = "[Dict]", vsnip = "[Vsnip]" } })
   },
   mapping = {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
