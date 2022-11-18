@@ -1,47 +1,5 @@
 local g = vim.g
-
-vim.o.termguicolors = true
-
-g.nvim_tree_side = "left"
-g.nvim_tree_width = 30
-g.nvim_tree_git_hl = 1
-g.nvim_tree_root_folder_modifier = ":t"
-g.nvim_tree_allow_resize = 1
-g.nvim_tree_auto_ignore_ft = { 'startify', 'dashboard' }
--- nvim_tree_auto_open,
--- nvim_tree_follow,
--- nvim_tree_ignore,
--- nvim_tree_tab_open,
--- nvim_tree_lsp_diagnostics,
--- nvim_tree_quit_on_open
-
-g.nvim_tree_show_icons = {
-  git = 1,
-  folders = 1,
-  files = 1,
-  folder_arrows = 0
-}
-
-vim.g.nvim_tree_icons = {
-  default = ' ',
-  symlink = ' ',
-  git = {
-    unstaged = "*",
-    staged = "S",
-    unmerged = "",
-    renamed = "➜",
-    deleted = "",
-    untracked = "U",
-    ignored = "◌"
-  },
-  folder = {
-    default = "",
-    open = "",
-    empty = "",
-    empty_open = "",
-    symlink = ""
-  }
-}
+-- vim.o.termguicolors = true
 
 local tree_cb = require "nvim-tree.config".nvim_tree_callback
 local bindings = {
@@ -82,18 +40,49 @@ local bindings = {
 
 
 require 'nvim-tree'.setup {
+  renderer = {
+    root_folder_modifier = ":t",
+    highlight_git = true,
+    icons = {
+      show = {
+        git = true,
+        folder = true,
+        file = true,
+        folder_arrow = false
+      },
+      glyphs = {
+        default = ' ',
+        symlink = ' ',
+        git = {
+          unstaged = "*",
+          staged = "S",
+          unmerged = "",
+          renamed = "➜",
+          deleted = "",
+          untracked = "U",
+          ignored = "◌"
+        },
+        folder = {
+          default = "",
+          open = "",
+          empty = "",
+          empty_open = "",
+          symlink = ""
+        }
+      }
+    },
+  },
   disable_netrw = false,
   hijack_netrw = true,
   open_on_setup = true,
   ignore_ft_on_setup = { 'dashboard' },
-  auto_close = true,
   open_on_tab = false,
   hijack_cursor = true,
   update_cwd = true,
   update_focused_file = { enable = true, update_cwd = true, ignore_list = {} },
   system_open = {
     -- the command to run this, leaving nil should work in most cases
-    cmd = open,
+    -- cmd = open,
     -- the command arguments as a list
     args = { "-R" }
   },
@@ -104,23 +93,12 @@ require 'nvim-tree'.setup {
   view = {
     width = 25,
     side = 'left',
-    auto_resize = true,
     mappings = { custom_only = false, list = bindings }
   },
   filters = {
     custom = { ".DS_Store", ".git", "node_modules", ".cache" },
     dotfiles = false,
   },
-  nvim_tree_hide_dotfiles = 0,
-  nvim_tree_auto_open = 0,
-  nvim_tree_auto_close = 1,
-  nvim_tree_indent_markers = 0,
-  nvim_tree_lsp_diagnostics = 1,
-  nvim_tree_quit_on_open = 1,
-  nvim_tree_follow = 1,
-  nvim_tree_tab_open = 0,
-  auto_close = true,
-  update_cwd = true,
   actions = {
     use_system_clipboard = true,
     change_dir = {
