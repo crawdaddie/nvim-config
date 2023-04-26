@@ -100,9 +100,10 @@ require('lazy').setup({
     'hrsh7th/nvim-cmp',
     dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
   },
+  { 'tzachar/cmp-fuzzy-buffer', dependencies = { 'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim' } },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',          opts = {} },
+  { 'folke/which-key.nvim',     opts = {} },
   -- {
   --   -- Adds git releated signs to the gutter, as well as utilities for managing changes
   --   'lewis6991/gitsigns.nvim',
@@ -298,13 +299,13 @@ pcall(require('telescope').load_extension, 'fzf')
 vim.keymap.set('n', '<leader>o', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader> ', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
 
--- vim.keymap.set('n', '<leader>/', function()
---   -- You can pass additional bonfiguration to telescope to change theme, layout, etc.
---   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
---     winblend = 10,
---     previewer = false,
---   })
--- end, { desc = '[/] Fuzzily search in current buffer' })
+vim.keymap.set('n', '<leader>sf', function()
+  -- You can pass additional bonfiguration to telescope to change theme, layout, etc.
+  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+    winblend = 10,
+    previewer = false,
+  })
+end, { desc = '[/] Fuzzily search in current buffer' })
 
 vim.keymap.set('n', '<leader>p', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
@@ -542,6 +543,45 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+
+cmp.setup.cmdline('/', {
+  -- mapping = cmp.mapping.preset.insert {
+  --   ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+  --   ['<C-f>'] = cmp.mapping.scroll_docs(4),
+  --   ['<C-Space>'] = cmp.mapping.complete {},
+  --   ['<CR>'] = cmp.mapping.confirm {
+  --     behavior = cmp.ConfirmBehavior.Replace,
+  --     select = true,
+  --   },
+  --   ['<Tab>'] = cmp.mapping(function(fallback)
+  --     if cmp.visible() then
+  --       cmp.select_next_item()
+  --     elseif luasnip.expand_or_jumpable() then
+  --       luasnip.expand_or_jump()
+  --     else
+  --       fallback()
+  --     end
+  --   end, { 'i', 's' }),
+  --   ['<S-Tab>'] = cmp.mapping(function(fallback)
+  --     if cmp.visible() then
+  --       cmp.select_prev_item()
+  --     elseif luasnip.jumpable(-1) then
+  --       luasnip.jump(-1)
+  --     else
+  --       fallback()
+  --     end
+  --   end, { 'i', 's' }),
+  -- },
+  mapping = {
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<S-Tab>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
+    ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
+  },
+  sources = cmp.config.sources({
+    { name = 'fuzzy_buffer' }
+  })
+})
+
 -- require('colorscheme')
 
 
