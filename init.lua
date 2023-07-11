@@ -1,40 +1,3 @@
---[[
-
-=====================================================================
-==================== READ THIS BEFORE CONTINUING ====================
-=====================================================================
-
-Kickstart.nvim is *not* a distribution.
-
-Kickstart.nvim is a template for your own configuration.
-  The goal is that you can read every line of code, top-to-bottom, and understand
-  what your configuration is doing.
-
-  Once you've done that, you should start exploring, configuring and tinkering to
-  explore Neovim!
-
-  If you don't know anything about Lua, I recommend taking some time to read through
-  a guide. One possible example:
-  - https://learnxinyminutes.com/docs/lua/
-
-  And then you can explore or search through `:help lua-guide`
-
-
-Kickstart Guide:
-
-I have left several `:help X` comments throughout the init.lua
-You should run that command and read that help section for more information.
-
-In addition, I have some `NOTE:` items throughout the file.
-These are for you, the reader to help understand what is happening. Feel free to delete
-them once you know what you're doing, but they should serve as a guide for when you
-are first encountering a few different constructs in your nvim config.
-
-I hope you enjoy your Neovim journey,
-- TJ
-
-P.S. You can delete this when you're done too. It's your config now :)
---]]
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
@@ -95,6 +58,10 @@ require('lazy').setup({
   --   branch = 'master',
   --   dependencies = { 'nvim-lua/plenary.nvim' }
   -- },
+  {
+    "L3MON4D3/LuaSnip",
+    dependencies = { "rafamadriz/friendly-snippets" },
+  },
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -194,7 +161,7 @@ require('lazy').setup({
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
   require 'kickstart.plugins.autoformat',
-  require 'kickstart.plugins.debug',
+  -- require 'kickstart.plugins.debug',
 
   -- NOTE: The import below automatically adds your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
@@ -206,7 +173,69 @@ require('lazy').setup({
   --    to get rid of the warning telling you that there are not plugins in `lua/custom/plugins/`.
   { import = 'custom.plugins' },
   'nvim-tree/nvim-tree.lua',
-  'nvim-tree/nvim-web-devicons'
+  'nvim-tree/nvim-web-devicons',
+
+  {
+    'davidgranstrom/scnvim',
+    config = function()
+      require('scnvim-config')
+    end
+  },
+  {
+    'rose-pine/neovim',
+    -- config = function()
+    --   require('rose-pine').setup({
+    --     --- @usage 'auto'|'main'|'moon'|'dawn'
+    --     variant = 'auto',
+    --     --- @usage 'main'|'moon'|'dawn'
+    --     dark_variant = 'main',
+    --     bold_vert_split = false,
+    --     dim_nc_background = false,
+    --     disable_background = false,
+    --     disable_float_background = false,
+    --     disable_italics = false,
+    --
+    --     --- @usage string hex value or named color from rosepinetheme.com/palette
+    --     groups = {
+    --       background = 'base',
+    --       background_nc = '_experimental_nc',
+    --       panel = 'surface',
+    --       panel_nc = 'base',
+    --       border = 'highlight_med',
+    --       comment = 'muted',
+    --       link = 'iris',
+    --       punctuation = 'subtle',
+    --
+    --       error = 'love',
+    --       hint = 'iris',
+    --       info = 'foam',
+    --       warn = 'gold',
+    --
+    --       headings = {
+    --         h1 = 'iris',
+    --         h2 = 'foam',
+    --         h3 = 'rose',
+    --         h4 = 'gold',
+    --         h5 = 'pine',
+    --         h6 = 'foam',
+    --       }
+    --       -- or set all headings at once
+    --       -- headings = 'subtle'
+    --     },
+    --
+    --     -- Change specific vim highlight groups
+    --     -- https://github.com/rose-pine/neovim/wiki/Recipes
+    --     highlight_groups = {
+    --       ColorColumn = { bg = 'rose' },
+    --
+    --       -- Blend colours against the "base" background
+    --       CursorLine = { bg = 'foam', blend = 10 },
+    --       StatusLine = { fg = 'love', bg = 'love', blend = 10 },
+    --     }
+    --   })
+    -- end
+  }
+
 }, {})
 
 -- [[ Setting options ]]
@@ -388,7 +417,7 @@ vim.keymap.set('n', '<leader>q', require('telescope.builtin').diagnostics, { des
 
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
   -- to define small helper and utility functions so you don't have to repeat yourself
   -- many times.
@@ -433,7 +462,32 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
+  if client.server_capabilities.document_highlight then
+    vim.api.nvim_exec2([[
+    hi LspDiagnosticsDefaultError gui=italic guifg=#ef7872
+    hi LspDiagnosticsDefaultWarning gui=italic guifg=#f4a46e
+    hi LspDiagnosticsDefaultHint gui=italic guifg=#6a6765
+    hi LspDiagnosticsDefaultInformation gui=italic guifg=#6a6765
+    hi link LspDiagnosticsDefaultHint DiagnosticHint
+    hi link LspDiagnosticsDefaultInformation DiagnosticInfo
+    hi! link DiagnosticHint #6a6765
+    hi! link DiagnosticInfo #6a6765
+
+
+    hi LspReferenceRead cterm=bold ctermbg=red guibg=#d9d8d3
+    hi LspReferenceText cterm=bold ctermbg=red guibg=#d9d8d3
+    hi LspReferenceWrite cterm=bold ctermbg=red guibg=#d9d8d3
+
+    augroup lsp_document_highlight
+        autocmd! * <buffer>
+        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+    augroup END]],
+      false
+    )
+  end
 end
+-- vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focusable=false})]]
 
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -446,6 +500,7 @@ local servers = {
   -- pyright = {},
   -- rust_analyzer = {},
   -- tsserver = {},
+  ocamllsp = {},
 
   lua_ls = {
     Lua = {
@@ -478,6 +533,9 @@ local mason_lspconfig = require 'mason-lspconfig'
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
 }
+local cmds = {
+  ocaml_lsp = 'ocamllsp'
+}
 
 mason_lspconfig.setup_handlers {
   function(server_name)
@@ -497,13 +555,16 @@ mason_lspconfig.setup_handlers {
         ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = Border }),
       }
     }
+    if cmds[server_name] then
+      require('lspconfig')[server_name].cmd = { cmds[server_name] }
+    end
   end,
 }
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
-
+require("luasnip.loaders.from_vscode").lazy_load {}
 luasnip.config.setup {}
 
 cmp.setup {
@@ -624,24 +685,26 @@ vim.o.clipboard = "unnamedplus" -- Copy paste between vim and everything else
 vim.o.cmdheight = 1             -- More space for displaying messages
 vim.cmd('syntax on')            -- syntax highlighting
 
-vim.wo.wrap = false
 vim.wo.number = false
 vim.wo.cursorline = true
 vim.wo.signcolumn = "no"
 vim.wo.relativenumber = true -- set relative number
 vim.wo.number = true         -- set hybrid line number
 
--- vim.o.tabstop = Settings.options.tabwidth
--- vim.bo.tabstop = Settings.options.tabwidth
--- vim.o.softtabstop = Settings.options.tabwidth
--- vim.bo.softtabstop = Settings.options.tabwidth
--- vim.o.shiftwidth = Settings.options.tabwidth
--- vim.bo.shiftwidth = Settings.options.tabwidth
+local tabwidth = 4
+vim.o.tabstop = tabwidth
+vim.bo.tabstop = tabwidth
+vim.o.softtabstop = tabwidth
+vim.bo.softtabstop = tabwidth
+vim.o.shiftwidth = tabwidth
+vim.bo.shiftwidth = tabwidth
+
 vim.o.autoindent = true
 vim.bo.autoindent = true
 vim.o.expandtab = true
 vim.bo.expandtab = true
 vim.g.nrformats = "hex,alpha"
+vim.o.wrap = false
 
 -- Disable various builtin plugins in Vim that bog down speed
 
@@ -655,7 +718,7 @@ vim.g.nrformats = "hex,alpha"
 --TERMINAL = vim.fn.expand('$TERMINAL')
 --vim.cmd('let &titleold="'..TERMINAL..'"')
 --vim.o.titlestring="%<%F%=%l/%L - nvim"
---vim.wo.wrap = O.wrap_lines -- Display long lines as just one line
+-- vim.wo.wrap = O.wrap_lines -- Display long lines as just one line
 --vim.cmd('set whichwrap+=<,>,[,],h,l') -- move to next line with theses keys
 ---- vim.o.pumheight = 10 -- Makes popup menu smaller
 --vim.o.fileencoding = "utf-8" -- The encoding written to file
@@ -683,13 +746,28 @@ vim.g.nrformats = "hex,alpha"
 --vim.g.gitblame_enabled = 0
 require 'keybindings'
 vim.api.nvim_set_hl(0, 'WinSeparator', { fg = 'black', bold = true })
+vim.g.c_syntax_for_h = 1
 
 vim.api.nvim_exec2([[
   autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
   set title
 ]], {})
 
+local fe_callback = function()
+  vim.bo.filetype = "fe"    -- set filetype
+  vim.bo.syntax = "clojure" -- set syntax
+  -- vim.bo.commentstring = "'%s" -- set comment string
+  -- vim.bo.ts = 4                -- set tapspaces 4
+  -- vim.bo.sw = 4                -- set shiftwidth 4
+end
+
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufFilePost", "BufRead" }, {
+  pattern = "*.fe",
+  callback = fe_callback,
+})
+
 vim.cmd('colorscheme seoul256-light')
+-- vim.cmd('colorscheme rose-pine-dawn')
 require 'CurtineIncSw'
 require 'nvimtree-config'
 -- vim.cmd('set laststatus=3')
