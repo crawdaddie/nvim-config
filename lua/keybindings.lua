@@ -61,7 +61,7 @@ vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeToggle<CR>", { noremap = tru
 
 -- telescope
 --
-vim.cmd("nnoremap <leader>hh :lua require'telescope.builtin'.git_branches{}")
+vim.cmd("nnoremap <leader>hh <cmd>lua require'telescope.builtin'.git_branches{}<CR>")
 -- nvim dap
 vim.cmd("nnoremap <silent><Leader>dc <Cmd>lua require'dap'.continue()<CR>")
 
