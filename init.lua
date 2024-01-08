@@ -436,7 +436,8 @@ local on_attach = function(client, bufnr)
 
   nmap('<leader>r', vim.lsp.buf.rename, '[R]e[n]ame')
   -- nmap('<leader>rn', rename, '[R]e[n]ame')
-  nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+  nmap('<leader>sa', vim.lsp.buf.code_action, '[C]ode [A]ction')
+
   -- nmap('<leader>cb', require('ui').input, '[C]ode [A]ction')
 
 
@@ -524,7 +525,8 @@ local servers = {
     }
   },
   -- tsserver = {},
-  ocamllsp = {},
+  ocamllsp = {
+  },
 
   lua_ls = {
     Lua = {
