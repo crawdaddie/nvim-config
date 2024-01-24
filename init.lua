@@ -182,59 +182,16 @@ require('lazy').setup({
   --   end
   -- },
   {
-    'rose-pine/neovim',
-    -- config = function()
-    --   require('rose-pine').setup({
-    --     --- @usage 'auto'|'main'|'moon'|'dawn'
-    --     variant = 'auto',
-    --     --- @usage 'main'|'moon'|'dawn'
-    --     dark_variant = 'main',
-    --     bold_vert_split = false,
-    --     dim_nc_background = false,
-    --     disable_background = false,
-    --     disable_float_background = false,
-    --     disable_italics = false,
-    --
-    --     --- @usage string hex value or named color from rosepinetheme.com/palette
-    --     groups = {
-    --       background = 'base',
-    --       background_nc = '_experimental_nc',
-    --       panel = 'surface',
-    --       panel_nc = 'base',
-    --       border = 'highlight_med',
-    --       comment = 'muted',
-    --       link = 'iris',
-    --       punctuation = 'subtle',
-    --
-    --       error = 'love',
-    --       hint = 'iris',
-    --       info = 'foam',
-    --       warn = 'gold',
-    --
-    --       headings = {
-    --         h1 = 'iris',
-    --         h2 = 'foam',
-    --         h3 = 'rose',
-    --         h4 = 'gold',
-    --         h5 = 'pine',
-    --         h6 = 'foam',
-    --       }
-    --       -- or set all headings at once
-    --       -- headings = 'subtle'
-    --     },
-    --
-    --     -- Change specific vim highlight groups
-    --     -- https://github.com/rose-pine/neovim/wiki/Recipes
-    --     highlight_groups = {
-    --       ColorColumn = { bg = 'rose' },
-    --
-    --       -- Blend colours against the "base" background
-    --       CursorLine = { bg = 'foam', blend = 10 },
-    --       StatusLine = { fg = 'love', bg = 'love', blend = 10 },
-    --     }
-    --   })
-    -- end
-  }
+    "jpalardy/vim-slime",
+    config = function()
+      vim.g.slime_target = "neovim"
+      vim.g.slime_python_ipython = 1
+      require('slime')
+      vim.api.nvim_create_user_command("OcamlRepl", OpenOcamlRepl, {})
+      vim.api.nvim_create_user_command("PythonRepl", OpenPythonRepl, {})
+    end,
+  },
+
 
 }, {})
 
@@ -414,7 +371,7 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous dia
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 vim.keymap.set('n', '<leader>E', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 
-vim.keymap.set('n', '<leader>q', require('telescope.builtin').diagnostics, { desc = "Open diagnostics list" })
+vim.keymap.set('n', '<leader>q', require('telescope.builtin').quickfix, { desc = "Open quick fix list list" })
 
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
