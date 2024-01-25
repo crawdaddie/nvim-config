@@ -6,8 +6,7 @@ vim.g.maplocalleader = ' '
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
---    `:help lazy.nvim.txt` for more info
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+--    `:help lazy.nvim.txt` for more info local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
     'git',
@@ -182,59 +181,16 @@ require('lazy').setup({
   --   end
   -- },
   {
-    'rose-pine/neovim',
-    -- config = function()
-    --   require('rose-pine').setup({
-    --     --- @usage 'auto'|'main'|'moon'|'dawn'
-    --     variant = 'auto',
-    --     --- @usage 'main'|'moon'|'dawn'
-    --     dark_variant = 'main',
-    --     bold_vert_split = false,
-    --     dim_nc_background = false,
-    --     disable_background = false,
-    --     disable_float_background = false,
-    --     disable_italics = false,
-    --
-    --     --- @usage string hex value or named color from rosepinetheme.com/palette
-    --     groups = {
-    --       background = 'base',
-    --       background_nc = '_experimental_nc',
-    --       panel = 'surface',
-    --       panel_nc = 'base',
-    --       border = 'highlight_med',
-    --       comment = 'muted',
-    --       link = 'iris',
-    --       punctuation = 'subtle',
-    --
-    --       error = 'love',
-    --       hint = 'iris',
-    --       info = 'foam',
-    --       warn = 'gold',
-    --
-    --       headings = {
-    --         h1 = 'iris',
-    --         h2 = 'foam',
-    --         h3 = 'rose',
-    --         h4 = 'gold',
-    --         h5 = 'pine',
-    --         h6 = 'foam',
-    --       }
-    --       -- or set all headings at once
-    --       -- headings = 'subtle'
-    --     },
-    --
-    --     -- Change specific vim highlight groups
-    --     -- https://github.com/rose-pine/neovim/wiki/Recipes
-    --     highlight_groups = {
-    --       ColorColumn = { bg = 'rose' },
-    --
-    --       -- Blend colours against the "base" background
-    --       CursorLine = { bg = 'foam', blend = 10 },
-    --       StatusLine = { fg = 'love', bg = 'love', blend = 10 },
-    --     }
-    --   })
-    -- end
-  }
+    "jpalardy/vim-slime",
+    config = function()
+      vim.g.slime_target = "neovim"
+      vim.g.slime_python_ipython = 1
+      require('slime')
+      vim.api.nvim_create_user_command("OcamlRepl", OpenOcamlRepl, {})
+      vim.api.nvim_create_user_command("PythonRepl", OpenPythonRepl, {})
+    end,
+  },
+
 
 }, {})
 
@@ -436,7 +392,14 @@ local on_attach = function(client, bufnr)
 
   nmap('<leader>r', vim.lsp.buf.rename, '[R]e[n]ame')
   -- nmap('<leader>rn', rename, '[R]e[n]ame')
+<<<<<<< HEAD
   nmap('<leader>sa', vim.lsp.buf.code_action, '[C]ode [A]ction')
+||||||| b9315ad
+  nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+=======
+  nmap('<leader>sa', vim.lsp.buf.code_action, '[C]ode [A]ction')
+
+>>>>>>> 42a2cc1a2c271ddda88a264c72060bf07a4b7293
   -- nmap('<leader>cb', require('ui').input, '[C]ode [A]ction')
 
 
@@ -525,6 +488,7 @@ local servers = {
   },
   -- tsserver = {},
   ocamllsp = {},
+
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
