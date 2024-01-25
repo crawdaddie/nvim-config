@@ -414,7 +414,7 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous dia
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 vim.keymap.set('n', '<leader>E', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 
-vim.keymap.set('n', '<leader>q', require('telescope.builtin').diagnostics, { desc = "Open diagnostics list" })
+vim.keymap.set('n', '<leader>q', require('telescope.builtin').quickfix, { desc = "Open Quickfix" })
 
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
@@ -436,7 +436,7 @@ local on_attach = function(client, bufnr)
 
   nmap('<leader>r', vim.lsp.buf.rename, '[R]e[n]ame')
   -- nmap('<leader>rn', rename, '[R]e[n]ame')
-  nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+  nmap('<leader>sa', vim.lsp.buf.code_action, '[C]ode [A]ction')
   -- nmap('<leader>cb', require('ui').input, '[C]ode [A]ction')
 
 
@@ -525,7 +525,6 @@ local servers = {
   },
   -- tsserver = {},
   ocamllsp = {},
-
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
