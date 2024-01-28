@@ -189,6 +189,7 @@ require('lazy').setup({
       require('slime')
       vim.api.nvim_create_user_command("OcamlRepl", OpenOcamlRepl, {})
       vim.api.nvim_create_user_command("PythonRepl", OpenPythonRepl, {})
+      vim.api.nvim_create_user_command("SicpRepl", OpenSicpRepl, {})
     end,
   },
 

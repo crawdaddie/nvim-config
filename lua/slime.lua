@@ -36,6 +36,8 @@ function OpenOcamlRepl()
 
   vim.cmd [[wincmd h]]
   vim.cmd("let b:slime_config = {\"jobid\": " .. repl_id .. "}")
+
+  vim.cmd("set syntax=ocaml")
 end
 
 function OpenPythonRepl()
@@ -49,9 +51,17 @@ function OpenPythonRepl()
   vim.cmd [[wincmd h]]
   vim.cmd("let b:slime_config = {\"jobid\": " .. repl_id .. "}")
 
-  vim.api.nvim_exec2([[
-  augroup MyBufferKeyMappings
-    autocmd!
-    autocmd BufEnter <buffer> nnoremap <silent> <leader>a :SlimeSend"<CR>
-  augroup END]], { output = false })
+  vim.cmd("set syntax=python")
+end
+
+function OpenSicpRepl()
+  cmd = "racket -l sicp --repl"
+  cmd = vim.fn.input("=> ", cmd)
+  vim.cmd [[wincmd n]]
+  vim.cmd [[wincmd L]]
+  repl_id = vim.fn.termopen(cmd)
+  print("replid: " .. repl_id)
+  vim.cmd [[wincmd h]]
+  vim.cmd("let b:slime_config = {\"jobid\": " .. repl_id .. "}")
+  vim.cmd("set syntax=scheme")
 end
