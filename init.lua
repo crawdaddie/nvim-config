@@ -65,8 +65,13 @@ require('lazy').setup({
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
-    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip', 'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline' }
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp',
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline'
+    }
   },
   { 'tzachar/cmp-fuzzy-buffer', dependencies = { 'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim' } },
 
@@ -88,7 +93,7 @@ require('lazy').setup({
   -- },
   {
     'crawdaddie/seoul256.vim',
-    dir = "~/projects/editor/seoul256.vim"
+    dir = "~/.config/seoul256.vim"
   },
   -- { 'mswift42/vim-themes' },
   -- { 'junegunn/seoul256.vim' },
@@ -103,9 +108,11 @@ require('lazy').setup({
       options = {
         icons_enabled = true,
         theme = 'auto',
-        component_separators = { left = "", right = "" },
+        component_separators = '',
+        section_separators = { left = '', right = '' },
+        -- component_separators = { left = "", right = "" },
         -- section_separators = '',
-        section_separators = { left = '', right = '' },
+        -- section_separators = { left = '', right = '' },
         globalstatus = true,
       },
     },
@@ -266,27 +273,28 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 local actions = require('telescope.actions')
+
 require('telescope').setup {
   extensions = {
-    -- ["ui-select"] = {
-    --   require("telescope.themes").get_dropdown {
-    --     -- even more opts
-    --   }
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown {
+        -- even more opts
+      }
 
-    -- pseudo code / specification for writing custom displays, like the one
-    -- for "codeactions"
-    -- specific_opts = {
-    --   [kind] = {
-    --     make_indexed = function(items) -> indexed_items, width,
-    --     make_displayer = function(widths) -> displayer
-    --     make_display = function(displayer) -> function(e)
-    --     make_ordinal = function(e) -> string
-    --   },
-    --   -- for example to disable the custom builtin "codeactions" display
-    --      do the following
-    --   codeactions = false,
-    -- }
-    -- }
+      -- pseudo code / specification for writing custom displays, like the one
+      -- for "codeactions"
+      -- specific_opts = {
+      --   [kind] = {
+      --     make_indexed = function(items) -> indexed_items, width,
+      --     make_displayer = function(widths) -> displayer
+      --     make_display = function(displayer) -> function(e)
+      --     make_ordinal = function(e) -> string
+      --   },
+      --   -- for example to disable the custom builtin "codeactions" display
+      --      do the following
+      --   codeactions = false,
+      -- }
+    }
   },
   defaults = {
     mappings = {
@@ -335,6 +343,9 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = { 'c', 'cpp', 'lua', 'python', 'rust', 'vimdoc', 'vim' },
+  ignore_install = {},
+  modules = {},
+  sync_install = false,
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
@@ -714,9 +725,7 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufFilePost", "BufRead" }, {
   callback = fe_callback,
 })
 
-vim.cmd('colorscheme seoul256-light')
-vim.cmd('hi @variable guifg=0')
--- vim.cmd('colorscheme rose-pine-dawn')
+require 'colorscheme'
 require 'CurtineIncSw'
 require 'nvimtree-config'
 
