@@ -6,7 +6,8 @@ vim.g.maplocalleader = ' '
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
---    `:help lazy.nvim.txt` for more info local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+--    `:help lazy.nvim.txt` for more info
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
     'git',
@@ -392,14 +393,7 @@ local on_attach = function(client, bufnr)
 
   nmap('<leader>r', vim.lsp.buf.rename, '[R]e[n]ame')
   -- nmap('<leader>rn', rename, '[R]e[n]ame')
-<<<<<<< HEAD
   nmap('<leader>sa', vim.lsp.buf.code_action, '[C]ode [A]ction')
-||||||| b9315ad
-  nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
-=======
-  nmap('<leader>sa', vim.lsp.buf.code_action, '[C]ode [A]ction')
-
->>>>>>> 42a2cc1a2c271ddda88a264c72060bf07a4b7293
   -- nmap('<leader>cb', require('ui').input, '[C]ode [A]ction')
 
 
@@ -488,11 +482,34 @@ local servers = {
   },
   -- tsserver = {},
   ocamllsp = {},
-
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
+    },
+  },
+  pylsp = {
+    pylsp = {
+      plugins = {
+        -- formatter options
+        black = { enabled = true },
+        autopep8 = { enabled = false },
+        yapf = { enabled = false },
+        -- linter options
+        pylint = { enabled = false },
+        ruff = { enabled = true },
+        -- executable = "pylint" },
+        pyflakes = { enabled = false },
+        pycodestyle = { enabled = false },
+        -- type checker
+        pylsp_mypy = { enabled = true },
+        mypy = { enabled = true },
+        -- auto-completion options
+        jedi_completion = { fuzzy = true },
+        -- import sorting
+        pyls_isort = { enabled = true },
+        rope_autoimport = { enabled = true },
+      },
     },
   },
 }
