@@ -88,8 +88,12 @@ require('lazy').setup({
   -- },
   {
     'crawdaddie/seoul256.vim',
-    -- dir = "~/projects/seoul256.vim"
+    dir = "~/projects/editor/seoul256.vim"
   },
+  -- { 'mswift42/vim-themes' },
+  -- { 'junegunn/seoul256.vim' },
+  -- { "rose-pine/neovim", name = "rose-pine" },
+  -- { "bohrshaw/vim-colors" },
 
   {
     -- Set lualine as statusline
@@ -130,7 +134,7 @@ require('lazy').setup({
 
 
   -- Fuzzy Finder (files, lsp, etc)
-  { 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
+  { 'nvim-telescope/telescope.nvim',          version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
   -- {
   --   "nvim-telescope/telescope-file-browser.nvim",
   --   dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
@@ -147,6 +151,7 @@ require('lazy').setup({
       return vim.fn.executable 'make' == 1
     end,
   },
+  { 'nvim-telescope/telescope-ui-select.nvim' },
 
   {
     -- Highlight, edit, and navigate code
@@ -192,6 +197,7 @@ require('lazy').setup({
       vim.api.nvim_create_user_command("SicpRepl", OpenSicpRepl, {})
     end,
   },
+
 
 
 }, {})
@@ -261,6 +267,27 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- See `:help telescope` and `:help telescope.setup()`
 local actions = require('telescope.actions')
 require('telescope').setup {
+  extensions = {
+    -- ["ui-select"] = {
+    --   require("telescope.themes").get_dropdown {
+    --     -- even more opts
+    --   }
+
+    -- pseudo code / specification for writing custom displays, like the one
+    -- for "codeactions"
+    -- specific_opts = {
+    --   [kind] = {
+    --     make_indexed = function(items) -> indexed_items, width,
+    --     make_displayer = function(widths) -> displayer
+    --     make_display = function(displayer) -> function(e)
+    --     make_ordinal = function(e) -> string
+    --   },
+    --   -- for example to disable the custom builtin "codeactions" display
+    --      do the following
+    --   codeactions = false,
+    -- }
+    -- }
+  },
   defaults = {
     mappings = {
       i = {
@@ -281,6 +308,8 @@ require('telescope').setup {
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
+pcall(require('telescope').load_extension, 'ui-select')
+
 -- pcall(require('telescope').load_extension, 'file_browser')
 
 -- See `:help telescope.builtin`
@@ -305,7 +334,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim' },
+  ensure_installed = { 'c', 'cpp', 'lua', 'python', 'rust', 'vimdoc', 'vim' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
@@ -686,6 +715,7 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufFilePost", "BufRead" }, {
 })
 
 vim.cmd('colorscheme seoul256-light')
+vim.cmd('hi @variable guifg=0')
 -- vim.cmd('colorscheme rose-pine-dawn')
 require 'CurtineIncSw'
 require 'nvimtree-config'
