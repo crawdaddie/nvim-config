@@ -47,7 +47,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim',       opts = {} },
+      -- { 'j-hui/fidget.nvim',       opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -77,20 +77,20 @@ require('lazy').setup({
 
   -- Useful plugin to show you pending keybinds.
   { 'folke/which-key.nvim',     opts = {} },
-  -- {
-  --   -- Adds git releated signs to the gutter, as well as utilities for managing changes
-  --   'lewis6991/gitsigns.nvim',
-  --   opts = {
-  --     -- See `:help gitsigns.txt`
-  --     signs = {
-  --       add = { text = '+' },
-  --       change = { text = '~' },
-  --       delete = { text = '_' },
-  --       topdelete = { text = '‾' },
-  --       changedelete = { text = '~' },
-  --     },
-  --   },
-  -- },
+  {
+    -- Adds git releated signs to the gutter, as well as utilities for managing changes
+    'lewis6991/gitsigns.nvim',
+    -- opts = {
+    --   -- See `:help gitsigns.txt`
+    --   signs = {
+    --     add = { text = '+' },
+    --     change = { text = '~' },
+    --     delete = { text = '_' },
+    --     topdelete = { text = '‾' },
+    --     changedelete = { text = '~' },
+    --   },
+    -- },
+  },
   {
     'crawdaddie/seoul256.vim',
     dir = "~/.config/seoul256.vim"
@@ -205,6 +205,23 @@ require('lazy').setup({
     end,
   },
 
+  -- { 'simrat39/rust-tools.nvim' },
+  ---- lazy.nvim
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- add any options here
+    },
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim",
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      "rcarriga/nvim-notify",
+    }
+  }
 
 
 }, {})
@@ -322,7 +339,7 @@ pcall(require('telescope').load_extension, 'ui-select')
 
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>o', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader> ', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
+vim.keymap.set('n', '<leader>b', require('telescope.builtin').buffers, { desc = '[b] Find existing buffers' })
 
 vim.keymap.set('n', '<leader>sf', function()
   -- You can pass additional bonfiguration to telescope to change theme, layout, etc.
@@ -486,10 +503,18 @@ local on_attach = function(client, bufnr)
     hi LspDiagnosticsDefaultWarning gui=italic guifg=#f4a46e
     hi LspDiagnosticsDefaultHint gui=italic guifg=#6a6765
     hi LspDiagnosticsDefaultInformation gui=italic guifg=#6a6765
+    hi DiagnosticUnderlineError guisp="red"
     hi link LspDiagnosticsDefaultHint DiagnosticHint
     hi link LspDiagnosticsDefaultInformation DiagnosticInfo
-    hi! link DiagnosticHint #6a6765
-    hi! link DiagnosticInfo #6a6765
+    hi link LspDiagnosticsDefaultError DiagnosticError
+    " hi! link DiagnosticHint #6a6765
+    " hi! link DiagnosticInfo #6a6765
+
+    hi DiagnosticUnderlineError gui=undercurl guisp=#E12672
+    hi DiagnosticError guifg=#E12672
+    hi DiagnosticHint guifg=#0074BE
+    " hi DiagnosticWarn guifg=#FFBFBD
+    " hi DiagnosticUnderlineWarn guisp=#FFBFBD
 
 
     hi LspReferenceRead cterm=bold ctermbg=red guibg=#d9d8d3
@@ -499,6 +524,7 @@ local on_attach = function(client, bufnr)
     augroup lsp_document_highlight
         autocmd! * <buffer>
         autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
         autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
     augroup END]],
       { output = false }
@@ -516,11 +542,15 @@ local servers = {
   -- clangd = {},
   -- gopls = {},
   -- pyright = {},
-  rust_analyzer = {
-    ["rust-analyzer"] = {
-      checkOnSave = { command = "clippy" }
+  ["rust_analyzer"] = {
+    ["rust_analyzer"] = {
+      diagnostics = { enable = true }
     }
   },
+  --   ["rust-analyzer"] = {
+  --     checkOnSave = { command = "clippy" }
+  --   }
+  -- },
   -- tsserver = {},
   ocamllsp = {},
   lua_ls = {
@@ -605,6 +635,32 @@ mason_lspconfig.setup_handlers {
     end
   end,
 }
+
+-- require("rust-tools").setup({
+--   tools = {
+--     autoSetHints = false,
+--     hover_with_actions = true,
+--     hover_actions = { border = false },
+--     cache = true,
+--   },
+--   server = {
+--     on_attach = on_attach,
+--     capabilities = capabilities,
+--     cmd = {
+--       "rustup",
+--       "run",
+--       "nightly",
+--       "rust-analyzer",
+--     },
+--     settings = {
+--       ["rust-analyzer"] = {
+--         diagnostics = {
+--           experimental = true,
+--         },
+--       },
+--     },
+--   },
+-- })
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
@@ -703,9 +759,21 @@ cmp.setup.cmdline(':', {
     }
   })
 })
+require('gitsigns').setup()
 
 -- require('colorscheme')
 require("options")
+require('noice').setup({
+  cmdline = {
+    format = {
+      cmdline = {
+        icon =
+        ""
+      }
+    }
+  }
+})
+
 
 vim.api.nvim_exec2([[
   autocmd BufEnter * let &titlestring = ' ' . expand("%:t")

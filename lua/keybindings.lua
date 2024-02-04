@@ -67,6 +67,9 @@ vim.cmd("nnoremap <silent><Leader>dc <Cmd>lua require'dap'.continue()<CR>")
 
 vim.api.nvim_set_keymap('n', '<leader>x', ':bdelete<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>X', ':bdelete!<CR>', { noremap = true, silent = true })
+
+vim.api.nvim_set_keymap('n', '<leader>dd', ':Noice dismiss<CR>', { noremap = true, silent = true })
+
 -- vim.cmd("nnoremap <silent> <F10> <Cmd>lua require'dap'.step_over()<CR>")
 -- vim.cmd("nnoremap <silent> <F11> <Cmd>lua require'dap'.step_into()<CR>")
 -- vim.cmd("nnoremap <silent> <F12> <Cmd>lua require'dap'.step_out()<CR>")
