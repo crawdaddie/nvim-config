@@ -202,6 +202,7 @@ require('lazy').setup({
       vim.api.nvim_create_user_command("OcamlRepl", OpenOcamlRepl, {})
       vim.api.nvim_create_user_command("PythonRepl", OpenPythonRepl, {})
       vim.api.nvim_create_user_command("SicpRepl", OpenSicpRepl, {})
+      vim.api.nvim_create_user_command("YalceOcamlRepl", OpenYalceOcamlRepl, {})
     end,
   },
 
@@ -219,7 +220,7 @@ require('lazy').setup({
       -- OPTIONAL:
       --   `nvim-notify` is only needed, if you want to use the notification view.
       --   If not available, we use `mini` as the fallback
-      "rcarriga/nvim-notify",
+      -- "rcarriga/nvim-notify",
     }
   }
 
@@ -794,7 +795,7 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufFilePost", "BufRead" }, {
 })
 
 require 'colorscheme'
-require 'CurtineIncSw'
+-- require 'CurtineIncSw'
 require 'nvimtree-config'
 
 vim.cmd([[

@@ -1,5 +1,7 @@
-vim.api.nvim_buf_set_keymap(0, 'n', '<Leader>ii', ':lua CurtineIncSw()<CR>', { silent = true })
-vim.api.nvim_buf_set_keymap(0, 'n', '<Leader>iv', ':lua CurtineIncSw("v")<CR>', { silent = true })
+-- vim.api.nvim_buf_set_keymap(0, 'n', '<Leader>ii', ':lua CurtineIncSw()<CR>', { silent = true })
+-- vim.api.nvim_buf_set_keymap(0, 'n', '<Leader>iv', ':lua CurtineIncSw("v")<CR>', { silent = true })
+
+vim.cmd("nnoremap <silent> gh :ClangdSwitchSourceHeader<CR>")
 
 -- Optional: Unset the keymap when the ftplugin is unloaded
 function _G.unload_c_mappings()

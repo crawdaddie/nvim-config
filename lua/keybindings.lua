@@ -55,7 +55,7 @@ vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeToggle<CR>", { noremap = tru
 -- vim.api.nvim_set_keymap('i', '<C-.>', ':SCNvimCmdPeriod<CR>', { noremap = true, silent = true})
 --
 -- vim.api.nvim_set_keymap('n', '<leader>sr', ':SCNvimRecompile<CR>', { noremap = true, silent = true})
--- vim.api.nvim_set_keymap('n', '<leader>sb', ':SCNvimStart<CR>', { noremap = true, silent = true})
+-- vim.api.nvim_set_keymap('n', '<leader>sb', ':SCNvimStart<CR>', { nor  map = true, silent = true})
 -- vim.api.nvim_set_keymap('n', '<leader>sx', ':SCNvimCmdPeriod<CR>', { noremap = true, silent = true})
 
 
