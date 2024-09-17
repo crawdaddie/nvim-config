@@ -64,12 +64,16 @@ vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeToggle<CR>", { noremap = tru
 vim.cmd("nnoremap <leader>hh <cmd>lua require'telescope.builtin'.git_branches{}<CR>")
 -- nvim dap
 vim.cmd("nnoremap <silent><Leader>dc <Cmd>lua require'dap'.continue()<CR>")
+vim.api.nvim_set_keymap("n", "<leader>db", ":lua require'dap'.toggle_breakpoint()<CR>", { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', '<leader>x', ':bdelete<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>X', ':bdelete!<CR>', { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', '<leader>dd', ':Noice dismiss<CR>', { noremap = true, silent = true })
-
+-- Map ]q to :cnext
+vim.api.nvim_set_keymap('n', ']q', ':cnext<CR>', { noremap = true, silent = true })
+-- Map [q to :cprevious
+vim.api.nvim_set_keymap('n', '[q', ':cprevious<CR>', { noremap = true, silent = true })
 -- vim.cmd("nnoremap <silent> <F10> <Cmd>lua require'dap'.step_over()<CR>")
 -- vim.cmd("nnoremap <silent> <F11> <Cmd>lua require'dap'.step_into()<CR>")
 -- vim.cmd("nnoremap <silent> <F12> <Cmd>lua require'dap'.step_out()<CR>")
@@ -79,3 +83,4 @@ vim.api.nvim_set_keymap('n', '<leader>dd', ':Noice dismiss<CR>', { noremap = tru
 -- vim.cmd("nnoremap <silent> <Leader>dlp <Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
 -- vim.cmd("nnoremap <silent> <Leader>ddr <Cmd>lua require'dap'.repl.open()<CR>")
 -- vim.cmd("nnoremap <silent> <Leader>ddl <Cmd>lua require'dap'.run_last()<CR>")
+--

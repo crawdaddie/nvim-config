@@ -30,7 +30,6 @@ require('lazy').setup({
 
   -- Git related plugins
   'tpope/vim-fugitive',
-  'tpope/vim-rhubarb',
 
   -- Detect tabstop and shiftwidth automatically
   -- 'tpope/vim-sleuth',
@@ -70,7 +69,8 @@ require('lazy').setup({
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline'
+      'hrsh7th/cmp-cmdline',
+      'rcarriga/cmp-dap'
     }
   },
   { 'tzachar/cmp-fuzzy-buffer', dependencies = { 'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim' } },
@@ -222,9 +222,20 @@ require('lazy').setup({
       --   If not available, we use `mini` as the fallback
       -- "rcarriga/nvim-notify",
     }
-  }
-
-
+  },
+  {
+    "julianolf/nvim-dap-lldb",
+    dependencies = { "mfussenegger/nvim-dap" },
+    opts = { codelldb_path = "/Users/adam/.vscode/extensions/vadimcn.vscode-lldb-1.10.0/adapter/codelldb" },
+  },
+  -- {
+  --   'daic0r/dap-helper.nvim',
+  --   dependencies = { "mfussenegger/nvim-dap" },
+  --   config = function()
+  --     require("dap-helper").setup()
+  --   end
+  -- }
+  -- { "rcarriga/nvim-dap-ui",   dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } }
 }, {})
 
 -- [[ Setting options ]]
@@ -709,6 +720,19 @@ cmp.setup {
   },
 }
 
+require("cmp").setup({
+  enabled = function()
+    return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+        or require("cmp_dap").is_dap_buffer()
+  end
+})
+
+cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+  sources = {
+    { name = "dap" },
+  },
+})
+
 cmp.setup.cmdline('/', {
   -- mapping = cmp.mapping.preset.insert {
   --   ['<C-d>'] = cmp.mapping.scroll_docs(-4),
@@ -801,6 +825,20 @@ require 'nvimtree-config'
 vim.cmd([[
   autocmd BufRead,BufNewFile *.ylc set filetype=ylc
 ]])
+
+require('dap-tools')
+
+function ToggleSignColumn()
+  if vim.wo.signcolumn == "no" then
+    vim.wo.signcolumn = 'yes'
+  else
+    vim.wo.signcolumn = 'no'
+  end
+end
+
+vim.api.nvim_create_user_command("ToggleSignColumn", ToggleSignColumn, {})
+-- require("dapui").setup()
+
 require 'keybindings'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
