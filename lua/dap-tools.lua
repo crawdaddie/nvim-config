@@ -82,7 +82,7 @@ local function Debug()
   local function select_or_create_config(configs, callback)
     if #configs > 0 then
       -- Add 'New' option to the beginning of the configs list
-      table.insert(configs, 1, 'New')
+      table.insert(configs, #configs + 1, 'New')
 
       vim.ui.select(configs, {
         prompt = 'Select debug config:',

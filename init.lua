@@ -202,7 +202,8 @@ require('lazy').setup({
       vim.api.nvim_create_user_command("OcamlRepl", OpenOcamlRepl, {})
       vim.api.nvim_create_user_command("PythonRepl", OpenPythonRepl, {})
       vim.api.nvim_create_user_command("SicpRepl", OpenSicpRepl, {})
-      vim.api.nvim_create_user_command("YalceOcamlRepl", OpenYalceOcamlRepl, {})
+      vim.api.nvim_create_user_command("YlcRepl", OpenYlcRepl, {})
+      -- Add this to your Lua config
     end,
   },
 
@@ -236,6 +237,7 @@ require('lazy').setup({
   --   end
   -- }
   -- { "rcarriga/nvim-dap-ui",   dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } }
+  "gmoe/vim-faust"
 }, {})
 
 -- [[ Setting options ]]
@@ -550,7 +552,9 @@ end
 --
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
+--
 local servers = {
+
   -- clangd = {},
   -- gopls = {},
   -- pyright = {},
@@ -595,6 +599,8 @@ local servers = {
       },
     },
   },
+
+  arduino_language_server = {}
 }
 
 -- Setup neovim lua configuration
@@ -621,7 +627,17 @@ mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
 }
 local cmds = {
-  ocaml_lsp = 'ocamllsp'
+  ocaml_lsp = 'ocamllsp',
+  arduino_language_server = {
+    "arduino-language-server",
+    "-cli-config", "/Users/adam/Library/Arduino15/arduino-cli.yaml",
+    "-cli", "arduino-cli",
+    "-clangd",
+    "clangd",
+    "-fqbn",
+    "arduino:avr:uno",
+  },
+
 }
 
 mason_lspconfig.setup_handlers {
@@ -818,13 +834,12 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufFilePost", "BufRead" }, {
   callback = fe_callback,
 })
 
+require 'ylc'
+
 require 'colorscheme'
 -- require 'CurtineIncSw'
 require 'nvimtree-config'
 
-vim.cmd([[
-  autocmd BufRead,BufNewFile *.ylc set filetype=ylc
-]])
 
 require('dap-tools')
 
