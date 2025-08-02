@@ -1,77 +1,75 @@
-local repl = "utop"
+local repl = 'utop'
 local repl_id
 local cmd
 
 local function dune_proj()
-  local found_dune = vim.fn.findfile("dune", ".;")
-  local found_dune_project = vim.fn.findfile("dune-project", ".;")
-  if found_dune ~= "" or found_dune_project ~= "" then
+  local found_dune = vim.fn.findfile('dune', '.;')
+  local found_dune_project = vim.fn.findfile('dune-project', '.;')
+  if found_dune ~= '' or found_dune_project ~= '' then
     return true
   else
     return false
   end
 end
 
-
 function GetMlId()
   if repl_id ~= nil then
     print(repl_id)
   else
-    print("No Active Repl...")
+    print 'No Active Repl...'
   end
 end
 
 function OpenOcamlRepl()
   if cmd == nil then
     if dune_proj() then
-      cmd = "dune" .. " " .. repl
+      cmd = 'dune' .. ' ' .. repl
     else
       cmd = repl
     end
   end
-  cmd = vim.fn.input("=> ", cmd)
+  cmd = vim.fn.input('=> ', cmd)
   vim.cmd [[wincmd n]]
   vim.cmd [[wincmd L]]
   repl_id = vim.fn.termopen(cmd)
-  print("replid: " .. repl_id)
+  print('replid: ' .. repl_id)
 
   vim.cmd [[wincmd h]]
-  vim.cmd("let b:slime_config = {\"jobid\": " .. repl_id .. "}")
+  vim.cmd('let b:slime_config = {"jobid": ' .. repl_id .. '}')
 
-  vim.cmd("set syntax=ocaml")
+  vim.cmd 'set syntax=ocaml'
 end
 
 function OpenPythonRepl()
-  cmd = "ipython"
-  cmd = vim.fn.input("=> ", cmd)
+  cmd = 'ipython'
+  cmd = vim.fn.input('=> ', cmd)
   vim.cmd [[wincmd n]]
   vim.cmd [[wincmd L]]
   repl_id = vim.fn.termopen(cmd)
-  print("replid: " .. repl_id)
+  print('replid: ' .. repl_id)
 
   vim.cmd [[wincmd h]]
-  vim.cmd("let b:slime_config = {\"jobid\": " .. repl_id .. "}")
+  vim.cmd('let b:slime_config = {"jobid": ' .. repl_id .. '}')
 
-  vim.cmd("set syntax=python")
+  vim.cmd 'set syntax=python'
 end
 
 function OpenSicpRepl()
-  cmd = "racket -l sicp --repl"
-  cmd = vim.fn.input("=> ", cmd)
+  cmd = 'racket -l sicp --repl'
+  cmd = vim.fn.input('=> ', cmd)
   vim.cmd [[wincmd n]]
   vim.cmd [[wincmd L]]
   repl_id = vim.fn.termopen(cmd)
-  print("replid: " .. repl_id)
+  print('replid: ' .. repl_id)
   vim.cmd [[wincmd h]]
-  vim.cmd("let b:slime_config = {\"jobid\": " .. repl_id .. "}")
-  vim.cmd("set syntax=scheme")
+  vim.cmd('let b:slime_config = {"jobid": ' .. repl_id .. '}')
+  vim.cmd 'set syntax=scheme'
 end
 
 local term_buf
 local term_win
 
-
-vim.cmd([[
+vim.cmd [[
 function! _EscapeText_ylc(text)
   let lines = split(a:text, '\n', 1)
 
@@ -98,7 +96,7 @@ function! _EscapeText_ylc(text)
   " Join the lines and add a final newline
   return [join(result, "\n"), "\n\n"]
 endfunction
-]])
+]]
 
 function OpenYlcRepl()
   -- Store the current buffer (this will be our REPL buffer)
@@ -115,16 +113,16 @@ function OpenYlcRepl()
   -- end
 
   -- Create a new window to the right for the terminal
-  vim.cmd('vsplit')
-  vim.cmd('wincmd L')
+  vim.cmd 'vsplit'
+  vim.cmd 'wincmd L'
   term_win = vim.api.nvim_get_current_win()
 
   -- Prompt for the command
   ---- Get the current buffer's filename
-  local current_file = vim.fn.expand('%:p')
+  local current_file = vim.fn.expand '%:p'
 
   -- Prompt for the command, including the current filename
-  local cmd = vim.fn.input("=> ", "ylc " .. current_file .. " -i")
+  local cmd = vim.fn.input('=> ', 'ylc ' .. current_file .. ' -i')
   -- local cmd = vim.fn.input("=> ", "ylc -i")
 
   -- Start the terminal in the new window
@@ -137,9 +135,8 @@ function OpenYlcRepl()
           vim.api.nvim_win_set_cursor(term_win, { vim.api.nvim_buf_line_count(term_buf), 0 })
         end)
       end
-    end
+    end,
   })
-
 
   -- Move focus back to the original REPL window
   vim.api.nvim_set_current_win(repl_win)

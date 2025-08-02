@@ -20,34 +20,34 @@ vim.api.nvim_set_keymap('n', '<S-Tab>', ':bprevious<CR>', { noremap = true, sile
 vim.api.nvim_set_keymap('v', '<', '<gv', { noremap = true, silent = false })
 vim.api.nvim_set_keymap('v', '>', '>gv', { noremap = true, silent = false })
 
-vim.api.nvim_set_keymap('x', 'K', ':move \'<-2<CR>gv-gv', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('x', 'J', ':move \'>+1<CR>gv-gv', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('x', 'K', ":move '<-2<CR>gv-gv", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('x', 'J', ":move '>+1<CR>gv-gv", { noremap = true, silent = true })
 
 -- vim.api.nvim_set_keymap('v', '<leader>/', ':CommentToggle<cr>',
 -- { noremap = true, silent = true })
 
-vim.cmd('inoremap <expr> <c-j> (\"\\<C-n>\")')
-vim.cmd('inoremap <expr> <c-k> (\"\\<C-p>\")')
-vim.cmd("vnoremap // y/\\V<C-R>=escape(@\",'/\')<CR><CR>")
+vim.cmd 'inoremap <expr> <c-j> ("\\<C-n>")'
+vim.cmd 'inoremap <expr> <c-k> ("\\<C-p>")'
+vim.cmd "vnoremap // y/\\V<C-R>=escape(@\",'/')<CR><CR>"
 
 -- save buffer
 vim.api.nvim_set_keymap('n', '<C-s>', ':w!<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '<C-s>', '<C-o>:w!<CR>', { noremap = true, silent = true })
 -- leave vim
-vim.api.nvim_set_keymap("n", "<C-c><C-d>", ":wqa!<CR>", { noremap = true })
+vim.api.nvim_set_keymap('n', '<C-c><C-d>', ':wqa!<CR>', { noremap = true })
 
 -- lsp
 -- vim.api.nvim_set_keymap("n", "<leader>r", ":Lspsaga rename<CR>", { noremap = true, silent = true })
 -- vim.cmd("nnoremap <silent> ca :Lspsaga code_action<CR>")
 -- vim.cmd("nnoremap <silent> <leader>k :Lspsaga hover_doc<CR>")
 
-vim.cmd("nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>")
-vim.cmd("nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>")
-vim.cmd("nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>")
-vim.cmd("nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>")
-vim.cmd('nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>')
+vim.cmd 'nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>'
+vim.cmd 'nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>'
+vim.cmd 'nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>'
+vim.cmd 'nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>'
+vim.cmd 'nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>'
 
-vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
 -- supercollider
 -- vim.api.nvim_set_keymap('n', '<C-a>', ':SCNvimSendBlock<CR>', { noremap = true, silent = true})
 -- vim.api.nvim_set_keymap('i', '<C-a>', '<c-o>:SCNvimSendBlock<CR>', { noremap = true, silent = true})
@@ -58,13 +58,12 @@ vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeToggle<CR>", { noremap = tru
 -- vim.api.nvim_set_keymap('n', '<leader>sb', ':SCNvimStart<CR>', { nor  map = true, silent = true})
 -- vim.api.nvim_set_keymap('n', '<leader>sx', ':SCNvimCmdPeriod<CR>', { noremap = true, silent = true})
 
-
 -- telescope
 --
-vim.cmd("nnoremap <leader>hh <cmd>lua require'telescope.builtin'.git_branches{}<CR>")
+vim.cmd "nnoremap <leader>hh <cmd>lua require'telescope.builtin'.git_branches{}<CR>"
 -- nvim dap
-vim.cmd("nnoremap <silent><Leader>dc <Cmd>lua require'dap'.continue()<CR>")
-vim.api.nvim_set_keymap("n", "<leader>db", ":lua require'dap'.toggle_breakpoint()<CR>", { noremap = true, silent = true })
+vim.cmd "nnoremap <silent><Leader>dc <Cmd>lua require'dap'.continue()<CR>"
+vim.api.nvim_set_keymap('n', '<leader>db', ":lua require'dap'.toggle_breakpoint()<CR>", { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', '<leader>x', ':bdelete<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>X', ':bdelete!<CR>', { noremap = true, silent = true })
