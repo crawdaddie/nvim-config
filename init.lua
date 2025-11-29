@@ -23,7 +23,6 @@ vim.opt.rtp:prepend(lazypath)
 
 -- NOTE: Here is where you install your plugins.
 --  You can configure plugins using the `config` key.
---
 --  You can also configure plugins after the setup call,
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
@@ -98,8 +97,11 @@ require('lazy').setup({
   },
   -- { 'mswift42/vim-themes' },
   -- { 'junegunn/seoul256.vim' },
-  -- { "rose-pine/neovim", name = "rose-pine" },
+  { 'rose-pine/neovim', name = 'rose-pine' },
+  'sainnhe/everforest',
+  'shaunsingh/nord.nvim',
   -- { "bohrshaw/vim-colors" },
+  -- { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
 
   {
     -- Set lualine as statusline
@@ -676,6 +678,8 @@ require('lazy').setup({
   -- }
   -- { "rcarriga/nvim-dap-ui",   dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } }
   'gmoe/vim-faust',
+  'shortcuts/no-neck-pain.nvim',
+  { 'typicode/bg.nvim', lazy = false },
 }, {})
 
 -- [[ Setting options ]]
